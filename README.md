@@ -3,7 +3,7 @@
 </div>
 
 <div align="center">
-    <h3>Link : https://agrisens.netlify.app/ </h3>
+    <h3>Link : https://aifarmerassistant-krushiai.netlify.app/ </h3>
 </div>
 
 ![Screenshot 2025-01-22 210034](https://github.com/user-attachments/assets/5b945e7d-bbb0-4463-b06f-681445e102bd)
@@ -19,7 +19,7 @@ Smart Farming Assistant is an innovative solution that uses advanced technology 
 
 - [IEEE : Smart Crop Recommendation System with Plant Disease Identification](https://ieeexplore.ieee.org/document/10738975)
 
-- You can view the research paper directly here : [View Paper](https://github.com/ravikant-diwakar/AgriSens/blob/master/IEEE_Paper_Smart_Crop_Recommendation_System_with_Plant_Disease_Identification.pdf)
+- You can view the research paper directly here : [View Paper](https://github.com/SUDARSHANJADHAV2/Mega-Project/blob/main/IEEE_Paper_Smart_Crop_Recommendation_System_with_Plant_Disease_Identification.pdf)
 
 
 ## Features
@@ -34,7 +34,7 @@ Smart Farming Assistant is an innovative solution that uses advanced technology 
 
 ## Datasets
 
-The **Smart Farming Assistant** project provides three key datasets: the **Crop Recommendation Dataset** (2200 rows) includes soil and environmental factors such as nitrogen, phosphorous, temperature, humidity, and pH to predict the most suitable crops; the **Plant Disease Identification Dataset** contains 70,295 training and 17,572 validation images covering 38 diseases across 14 crops like Apple, Tomato, and Grape, used to train CNN models for disease detection; and the **Fertilizer Recommendation Dataset** offers data on soil quality and crop needs to provide tailored fertilizer suggestions. These datasets can be accessed via the following links: [Crop Recommendation Dataset](https://github.com/ravikant-diwakar/AgriSens/blob/master/Datasets/Crop_recommendation.csv), [Plant Disease Dataset](https://github.com/ravikant-diwakar/AgriSens/tree/master/Datasets), and [Fertilizer Recommendation Dataset](https://github.com/ravikant-diwakar/AgriSens/blob/master/Datasets/Fertilizer_recommendation.csv).
+The **Smart Farming Assistant** project provides three key datasets: the **Crop Recommendation Dataset** (2200 rows) includes soil and environmental factors such as nitrogen, phosphorous, temperature, humidity, and pH to predict the most suitable crops; the **Plant Disease Identification Dataset** contains 70,295 training and 17,572 validation images covering 38 diseases across 14 crops like Apple, Tomato, and Grape, used to train CNN models for disease detection; and the **Fertilizer Recommendation Dataset** offers data on soil quality and crop needs to provide tailored fertilizer suggestions. These datasets can be accessed via the following links: [Crop Recommendation Dataset](https://github.com/SUDARSHANJADHAV2/Mega-Project/blob/main/KrushiAI-Crop-Recommendation/Crop_recommendation.csv), [Plant Disease Dataset](https://github.com/SUDARSHANJADHAV2/Mega-Project/tree/main/KrushiAI-Disease-Recognition), and [Fertilizer Recommendation Dataset](https://github.com/SUDARSHANJADHAV2/Mega-Project/blob/main/KrushiAI-Fertilizer-Recommendation/Fertilizer_recommendation.csv).
 
 # 📌 Crop Recommendation Model
 
@@ -191,18 +191,6 @@ Found 17572 files belonging to 38 classes.
 - It applies CNN-based image classification to identify the correct disease for a given crop.
 
 
-
-| **Example of Diseased image** |
-| ------------------------------|
-| ![image](https://github.com/ravikant-diwakar/AgriSens-SMART-CROP-RECOMMENDATION-SYSTEM-WITH-PLANT-DISEASE-IDENTIFICATION/assets/110620635/2f230981-13b5-4010-a346-595c90fb6b32) ![image](https://github.com/ravikant-diwakar/AgriSens-SMART-CROP-RECOMMENDATION-SYSTEM-WITH-PLANT-DISEASE-IDENTIFICATION/assets/110620635/4219025a-0319-4b72-847f-b063c06ced0c) ![image](https://github.com/ravikant-diwakar/AgriSens-SMART-CROP-RECOMMENDATION-SYSTEM-WITH-PLANT-DISEASE-IDENTIFICATION/assets/110620635/2ece067b-5f8c-46d6-b05f-d1517aaf62a9) ![image](https://github.com/ravikant-diwakar/AgriSens-SMART-CROP-RECOMMENDATION-SYSTEM-WITH-PLANT-DISEASE-IDENTIFICATION/assets/110620635/cdb08134-7177-4df9-841d-1f9d3f171085) |
-
-| Training and validation (accuracy and loss) CNN |
-|---------------------------------------------|
-| ![image](https://github.com/ravikant-diwakar/AgriSens-SMART-CROP-RECOMMENDATION-SYSTEM-WITH-PLANT-DISEASE-IDENTIFICATION/assets/110620635/71e95ae9-05df-44dd-8192-133180981113) ![image](https://github.com/ravikant-diwakar/AgriSens-SMART-CROP-RECOMMENDATION-SYSTEM-WITH-PLANT-DISEASE-IDENTIFICATION/assets/110620635/9a11536a-8480-41cd-8099-9c0cec2c2c62) |
-
-
-These results demonstrate the effectiveness of the Smart Crop Recommendation System with Plant Disease Identification in assisting farmers with informed crop selection and disease management, thereby contributing to improved agricultural practices and crop yields.
-
 > [!IMPORTANT]
 > ### System Requirements
 >  - Python: Version 3.8 or above
@@ -217,34 +205,10 @@ These results demonstrate the effectiveness of the Smart Crop Recommendation Sys
 
 
 ## 👨‍💻 CONTRIBUTERS
-- [Ravikant Diwakar](https://github.com/ravikant-diwakar)
-- [Amit Kumar](https://github.com/AMITKUMAR7970)
-- [Gaurav Kumar](https://github.com/Gauravkumar1741)
-- Aditya Chaudhary
+- [SUDARSHAN JADHAV](https://github.com/SUDARSHANJADHAV2)
+- [SAKSHI BIRANJE](https://github.com/SakshiBiranje)
 
 ## 📷 Screenshots
-
-| Home page | Features | 
-| --------- | --------- |
-| ![Screenshot 2025-03-22 104944](https://github.com/user-attachments/assets/7b3f6f1b-6423-4ee6-ab16-6391846635f5) | ![Screenshot 2025-03-22 105012](https://github.com/user-attachments/assets/58fe884b-2868-4d55-80d9-a3bdf519ece7) |
-
-| Team Members | Contact Us |
-| --------- | --------- |
-| ![Screenshot 2025-03-22 105046](https://github.com/user-attachments/assets/1e15fa2b-afb1-4fa1-b743-a72af6dcd3c1) | ![Screenshot 2025-03-22 105141](https://github.com/user-attachments/assets/f3e6a7ca-9ebd-41c5-88c1-fd6e1f6528e9) |
-
-| Crop Recommendation | Plant Disease Identification |
-| --------- | --------- |
-| ![Screenshot 2025-03-22 105516](https://github.com/user-attachments/assets/b1cedad0-48fc-44e6-8595-93e9795519f5) | ![Screenshot 2025-03-22 110018](https://github.com/user-attachments/assets/af7915e4-be3d-4741-bec6-4a2e49054b3a) | 
-
-| Fertilizer Recommendation | Smart Farming Guide |
-| --------- | --------- |
-| ![Screenshot 2025-03-22 105639](https://github.com/user-attachments/assets/0d526603-15c5-443d-9f6c-cab83596cbe0) | ![Screenshot 2025-03-22 110057](https://github.com/user-attachments/assets/d454ef17-287c-4a0b-bee2-a5085d63a8bb) |
-
-| 📲 | 📲 | 📲 | 📲 |
-| -- | -- | -- | -- |
-| ![Screenshot 2025-03-22 110147](https://github.com/user-attachments/assets/a83eb79b-0c67-4a77-ae20-936ea481a8d4) | ![Screenshot 2025-03-22 110403](https://github.com/user-attachments/assets/ff101e2d-c712-48da-b478-9c3793ace689) | ![Screenshot 2025-03-22 110637](https://github.com/user-attachments/assets/c188d7f7-93ec-42d7-a719-d81c7eec2b59) | ![Screenshot 2025-03-22 110738](https://github.com/user-attachments/assets/91298e33-94ef-4408-b8d8-9d00b3195074) |
-
-
 
 
 
@@ -255,7 +219,7 @@ These results demonstrate the effectiveness of the Smart Crop Recommendation Sys
 
 ## 📧 Contact
 
-If you have any questions or feedback, feel free to reach out to us at [🔗Link](https://agrisens.netlify.app/form/).
+If you have any questions or feedback, feel free to reach out to us at [🔗Link](https://aifarmerassistant-krushiai.netlify.app/).
 
 ---
 
