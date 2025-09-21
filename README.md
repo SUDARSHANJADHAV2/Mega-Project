@@ -6,7 +6,7 @@
     <h3>Link : https://aifarmerassistant-krushiai.netlify.app/ </h3>
 </div>
 
-![Screenshot 2025-01-22 210034](https://github.com/user-attachments/assets/5b945e7d-bbb0-4463-b06f-681445e102bd)
+![Screenshot 2025-01-22 210034](https://github.com/SUDARSHANJADHAV2/Mega-Project/ScreenShots/HomePage.png)
 
 
 ## Overview
