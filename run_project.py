@@ -1,17 +1,21 @@
 import os
 import subprocess
 import time
+from http.server import HTTPServer, SimpleHTTPRequestHandler
 import signal
+
 
 def run_streamlit_app(port, path):
     """Run a Streamlit app in a separate process group."""
     command = ["streamlit", "run", path, "--server.port", str(port), "--server.headless", "true"]
     return subprocess.Popen(command, preexec_fn=os.setsid)
 
+
 def run_fastapi_app(port):
     """Run the FastAPI app using uvicorn."""
     command = ["uvicorn", "backend.main:app", "--host", "0.0.0.0", "--port", str(port), "--reload"]
     return subprocess.Popen(command, preexec_fn=os.setsid)
+
 
 def main():
     """Start all services."""
@@ -23,14 +27,16 @@ def main():
             try:
                 os.killpg(os.getpgid(p.pid), signal.SIGTERM)
             except ProcessLookupError:
-                pass # Process already dead
+                pass  # Process already dead
         print("Cleanup complete. Exiting.")
         exit(0)
 
+    # Register cleanup handlers
     signal.signal(signal.SIGINT, cleanup)
     signal.signal(signal.SIGTERM, cleanup)
 
-    ports = [8001, 8501, 8502, 8503]
+    # Free up used ports before starting services
+    ports = [8000, 8001, 8501, 8502, 8503]
     for port in ports:
         subprocess.run(f"fuser -k -n tcp {port}", shell=True, stderr=subprocess.DEVNULL)
         time.sleep(0.5)
@@ -50,13 +56,19 @@ def main():
         processes.append(run_streamlit_app(port, path))
         print(f"Started Streamlit app on port {port}")
 
-    # Keep the main process alive
+    # Start static web server
+    server_address = ("", 8000)
     try:
-        while True:
-            time.sleep(1)
+        httpd = HTTPServer(server_address, SimpleHTTPRequestHandler)
+        print("Starting static server on port 8000. Press Ctrl+C to stop.")
+        httpd.serve_forever()
+    except OSError as e:
+        print(f"Error starting static server: {e}")
+        cleanup(None, None)
     except KeyboardInterrupt:
         print("Keyboard interrupt received.")
         cleanup(None, None)
+
 
 if __name__ == "__main__":
     main()

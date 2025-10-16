@@ -208,6 +208,7 @@ Found 17572 files belonging to 38 classes.
 > 3. The weather API key is currently hardcoded in `KrushiAI-Weather-Forecast/script.js`. For production, this should be moved to a secure location.
 > 4. Run the `run_project.py` script from the root directory: `python run_project.py`.
 > 5. Open your browser and navigate to `http://localhost:8001`.
+
 >
 > ### Common Issues and Tips
 > - Ensure all dependencies in the `requirements.txt` are installed.
