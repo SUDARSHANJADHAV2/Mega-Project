@@ -28,10 +28,10 @@ def test_imports():
         import disease_info
         print("✅ Disease Info module imported successfully")
         
-        return True
+        assert True
     except Exception as e:
         print(f"❌ Import error: {e}")
-        return False
+        assert False
 
 def test_disease_database():
     """Test disease database"""
@@ -49,10 +49,10 @@ def test_disease_database():
         sample_info = get_disease_info('Apple___Apple_scab')
         print(f"✅ Sample disease info retrieved: {sample_info['name']}")
         
-        return True
+        assert True
     except Exception as e:
         print(f"❌ Database error: {e}")
-        return False
+        assert False
 
 def test_model_components():
     """Test model-related components"""
@@ -69,10 +69,10 @@ def test_model_components():
         color = get_severity_color("High")
         print(f"✅ Severity color mapping: {color}")
         
-        return True
+        assert True
     except Exception as e:
         print(f"❌ Model component error: {e}")
-        return False
+        assert False
 
 def main():
     """Run all tests"""
@@ -88,8 +88,8 @@ def main():
     passed = 0
     for test in tests:
         try:
-            if test():
-                passed += 1
+            test()
+            passed += 1
         except Exception as e:
             print(f"❌ Test failed with error: {e}")
     
