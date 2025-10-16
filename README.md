@@ -199,15 +199,23 @@ Found 17572 files belonging to 38 classes.
 
 > [!TIP]
 > ### How to Run the Project
-> 1. Install the dependencies for each module by running `pip install -r requirements.txt` in each of the following directories:
->    - `KrushiAI-Crop-Recommendation`
->    - `KrushiAI-Disease-Recognition`
->    - `KrushiAI-Fertilizer-Recommendation`
->    - `backend`
-> 2. Set the `SECRET_KEY` environment variable for the backend. For example, `export SECRET_KEY='your-super-secret-key'`.
-> 3. The weather API key is currently hardcoded in `KrushiAI-Weather-Forecast/script.js`. For production, this should be moved to a secure location.
-> 4. Run the `run_project.py` script from the root directory: `python run_project.py`.
-> 5. Open your browser and navigate to `http://localhost:8001`.
+> 1.  **Clone the repository:**
+>     ```bash
+>     git clone https://github.com/SUDARSHANJADHAV2/Mega-Project.git
+>     cd Mega-Project
+>     ```
+> 2.  **Install the required dependencies:**
+>     ```bash
+>     pip install -r requirements.txt
+>     ```
+> 3.  **Run the application:**
+>     ```bash
+>     python run_project.py
+>     ```
+> 4.  **Access the application:**
+>     Open your web browser and navigate to the following URLs:
+>     -   **Main Page:** [http://localhost:8000](http://localhost:8000)
+>     -   **Unified Streamlit App:** [http://localhost:8501](http://localhost:8501)
 
 >
 > ### Common Issues and Tips
@@ -235,20 +243,3 @@ Found 17572 files belonging to 38 classes.
 If you have any questions or feedback, feel free to reach out to us at [🔗Link](https://aifarmerassistant-krushiai.netlify.app/).
 
 ---
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

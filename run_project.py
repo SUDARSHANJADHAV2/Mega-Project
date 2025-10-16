@@ -45,16 +45,9 @@ def main():
     processes.append(run_fastapi_app(8001))
     print("Started FastAPI backend on port 8001")
 
-    # Start Streamlit apps
-    apps = {
-        8501: "KrushiAI-Crop-Recommendation/webapp.py",
-        8502: "KrushiAI-Disease-Recognition/main.py",
-        8503: "KrushiAI-Fertilizer-Recommendation/fertilizer_app.py",
-    }
-
-    for port, path in apps.items():
-        processes.append(run_streamlit_app(port, path))
-        print(f"Started Streamlit app on port {port}")
+    # Start the unified Streamlit app
+    processes.append(run_streamlit_app(8501, "unified_app/app.py"))
+    print("Started unified Streamlit app on port 8501")
 
     # Start static web server
     server_address = ("", 8000)
