@@ -198,9 +198,19 @@ Found 17572 files belonging to 38 classes.
 >  - Streamlit: For creating the web interface
 
 > [!TIP]
+> ### How to Run the Project
+> 1. Install the dependencies for each module by running `pip install -r requirements.txt` in each of the following directories:
+>    - `KrushiAI-Crop-Recommendation`
+>    - `KrushiAI-Disease-Recognition`
+>    - `KrushiAI-Fertilizer-Recommendation`
+> 2. Add your OpenWeatherMap API key to `KrushiAI-Weather-Forecast/script.js`.
+> 3. Run the `run_project.py` script from the root directory: `python run_project.py`.
+> 4. Open your browser and navigate to `http://localhost:8000`.
+>
 > ### Common Issues and Tips
 > - Ensure all dependencies in the `requirements.txt` are installed.
 > - For TensorFlow-based disease detection, ensure you have a compatible GPU or CPU for faster processing.
+> - For the Weather Forecast module, you need to add your own OpenWeatherMap API key in the `KrushiAI-Weather-Forecast/script.js` file.
 
 
 
