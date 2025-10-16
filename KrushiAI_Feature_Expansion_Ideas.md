@@ -275,16 +275,7 @@ Benefits:
 └── Kannada (ಕನ್ನಡ)
 ```
 
-### **IoT Integration Possibilities**
-```
-🔗 Smart Farm Sensors
-├── Soil Moisture Sensors
-├── Weather Stations
-├── Camera Traps (Pest Monitoring)
-├── pH Sensors
-├── Temperature/Humidity Monitors
-└── Automated Irrigation Controllers
-```
+
 
 ---
 
