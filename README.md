@@ -198,30 +198,9 @@ Found 17572 files belonging to 38 classes.
 >  - Streamlit: For creating the web interface
 
 > [!TIP]
-> ### How to Run the Project
-> 1.  **Clone the repository:**
->     ```bash
->     git clone https://github.com/SUDARSHANJADHAV2/Mega-Project.git
->     cd Mega-Project
->     ```
-> 2.  **Install the required dependencies:**
->     ```bash
->     pip install -r requirements.txt
->     ```
-> 3.  **Run the application:**
->     ```bash
->     python run_project.py
->     ```
-> 4.  **Access the application:**
->     Open your web browser and navigate to the following URLs:
->     -   **Main Page:** [http://localhost:8000](http://localhost:8000)
->     -   **Unified Streamlit App:** [http://localhost:8501](http://localhost:8501)
-
->
 > ### Common Issues and Tips
 > - Ensure all dependencies in the `requirements.txt` are installed.
 > - For TensorFlow-based disease detection, ensure you have a compatible GPU or CPU for faster processing.
-> - For the Weather Forecast module, you need to add your own OpenWeatherMap API key in the `KrushiAI-Weather-Forecast/script.js` file.
 
 
 
@@ -243,3 +222,20 @@ Found 17572 files belonging to 38 classes.
 If you have any questions or feedback, feel free to reach out to us at [🔗Link](https://aifarmerassistant-krushiai.netlify.app/).
 
 ---
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
