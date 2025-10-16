@@ -2,7 +2,8 @@
 class WeatherApp {
     constructor() {
         // Using OpenWeatherMap API (requires free API key)
-        this.API_KEY = 'YOUR_API_KEY'; // Replace with your OpenWeatherMap API key
+
+        this.API_KEY = '2ce9eab1c98cc64377afff6da395f7b8';
         this.API_BASE = 'https://api.openweathermap.org/data/2.5';
         this.GEO_API = 'https://api.openweathermap.org/geo/1.0';
         

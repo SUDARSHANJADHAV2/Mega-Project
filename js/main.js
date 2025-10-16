@@ -1,87 +1,123 @@
-let menu = document.querySelector("#menu-btn");
-let navbar = document.querySelector(".navbar");
+document.addEventListener('DOMContentLoaded', async () => {
+    const authLinks = document.getElementById('auth-links');
+    const userInfo = document.getElementById('user-info');
+    const userEmail = document.getElementById('user-email');
+    const logoutBtn = document.getElementById('logout-btn');
 
-// Mobile menu toggle
-menu.onclick = () => {
-  menu.classList.toggle("fa-times");
-  navbar.classList.toggle("active");
-};
+    const token = localStorage.getItem('accessToken');
 
-// Create scroll-to-top button
-const scrollTopBtn = document.createElement('button');
-scrollTopBtn.innerHTML = '<i class="fas fa-arrow-up"></i>';
-scrollTopBtn.classList.add('scroll-top-btn');
-document.body.appendChild(scrollTopBtn);
+    if (token) {
+        try {
+            const response = await fetch('/users/me/', {
+                headers: { 'Authorization': `Bearer ${token}` }
+            });
 
-// Handle scroll events
-window.onscroll = () => {
-  // Close mobile menu when scrolling
-  menu.classList.remove("fa-times");
-  navbar.classList.remove("active");
-  
-  // Show/hide scroll-to-top button
-  if (window.scrollY > 300) {
-    scrollTopBtn.classList.add('show');
-  } else {
-    scrollTopBtn.classList.remove('show');
-  }
-  
-  // Add shadow to header on scroll
-  const header = document.querySelector('.header');
-  if (window.scrollY > 50) {
-    header.classList.add('scrolled');
-  } else {
-    header.classList.remove('scrolled');
-  }
-};
+            if (response.ok) {
+                const user = await response.json();
+                authLinks.style.display = 'none';
+                userInfo.style.display = 'flex';
+                userEmail.textContent = user.email;
+            } else {
+                localStorage.removeItem('accessToken');
+            }
+        } catch (error) {
+            console.error("Error fetching user data:", error);
+            localStorage.removeItem('accessToken');
+        }
+    }
 
-// Scroll to top when button is clicked
-scrollTopBtn.addEventListener('click', () => {
-  window.scrollTo({
-    top: 0,
-    behavior: 'smooth'
-  });
-});
-
-// Smooth scroll for navigation links
-document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-  anchor.addEventListener('click', function(e) {
-    if (this.getAttribute('href') !== '#') {
-      e.preventDefault();
-      const targetId = this.getAttribute('href');
-      const targetElement = document.querySelector(targetId);
-      
-      if (targetElement) {
-        window.scrollTo({
-          top: targetElement.offsetTop - 80, // Adjust for header height
-          behavior: 'smooth'
+    if (logoutBtn) {
+        logoutBtn.addEventListener('click', () => {
+            localStorage.removeItem('accessToken');
+            window.location.href = '/';
         });
+    }
+
+    let menu = document.querySelector("#menu-btn");
+    let navbar = document.querySelector(".navbar");
+
+    // Mobile menu toggle
+    menu.onclick = () => {
+      menu.classList.toggle("fa-times");
+      navbar.classList.toggle("active");
+    };
+
+    // Create scroll-to-top button
+    const scrollTopBtn = document.createElement('button');
+    scrollTopBtn.innerHTML = '<i class="fas fa-arrow-up"></i>';
+    scrollTopBtn.classList.add('scroll-top-btn');
+    document.body.appendChild(scrollTopBtn);
+
+    // Handle scroll events
+    window.onscroll = () => {
+      // Close mobile menu when scrolling
+      menu.classList.remove("fa-times");
+      navbar.classList.remove("active");
+      
+      // Show/hide scroll-to-top button
+      if (window.scrollY > 300) {
+        scrollTopBtn.classList.add('show');
+      } else {
+        scrollTopBtn.classList.remove('show');
       }
+
+      // Add shadow to header on scroll
+      const header = document.querySelector('.header');
+      if (window.scrollY > 50) {
+        header.classList.add('scrolled');
+      } else {
+        header.classList.remove('scrolled');
+      }
+    };
+
+    // Scroll to top when button is clicked
+    scrollTopBtn.addEventListener('click', () => {
+      window.scrollTo({
+        top: 0,
+        behavior: 'smooth'
+      });
+    });
+
+    // Smooth scroll for navigation links
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function(e) {
+        if (this.getAttribute('href') !== '#') {
+          e.preventDefault();
+          const targetId = this.getAttribute('href');
+          const targetElement = document.querySelector(targetId);
+
+          if (targetElement) {
+            window.scrollTo({
+              top: targetElement.offsetTop - 80, // Adjust for header height
+              behavior: 'smooth'
+            });
+          }
+        }
+      });
+    });
+
+    // Add active class to navigation links based on scroll position
+    function highlightNavLink() {
+      const sections = document.querySelectorAll('section[id]');
+      const navLinks = document.querySelectorAll('.navbar a[href^="#"]');
+
+      let currentSection = '';
+
+      sections.forEach(section => {
+        const sectionTop = section.offsetTop - 100;
+        const sectionHeight = section.offsetHeight;
+        if (window.scrollY >= sectionTop && window.scrollY < sectionTop + sectionHeight) {
+          currentSection = section.getAttribute('id');
+        }
+      });
+
+      navLinks.forEach(link => {
+        link.classList.remove('active-link');
+        if (link.getAttribute('href') === `#${currentSection}`) {
+          link.classList.add('active-link');
+        }
+      });
     }
-  });
+
+    window.addEventListener('scroll', highlightNavLink);
 });
-
-// Add active class to navigation links based on scroll position
-function highlightNavLink() {
-  const sections = document.querySelectorAll('section[id]');
-  const navLinks = document.querySelectorAll('.navbar a[href^="#"]');
-  
-  let currentSection = '';
-  
-  sections.forEach(section => {
-    const sectionTop = section.offsetTop - 100;
-    const sectionHeight = section.offsetHeight;
-    if (window.scrollY >= sectionTop && window.scrollY < sectionTop + sectionHeight) {
-      currentSection = section.getAttribute('id');
-    }
-  });
-  
-  navLinks.forEach(link => {
-    link.classList.remove('active-link');
-    if (link.getAttribute('href') === `#${currentSection}`) {
-      link.classList.add('active-link');
-    }
-  });
-}
-
-window.addEventListener('scroll', highlightNavLink);

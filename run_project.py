@@ -4,12 +4,18 @@ import time
 from http.server import HTTPServer, SimpleHTTPRequestHandler
 import signal
 
+
 def run_streamlit_app(port, path):
     """Run a Streamlit app in a separate process group."""
     command = ["streamlit", "run", path, "--server.port", str(port), "--server.headless", "true"]
-    # preexec_fn=os.setsid is used to create a new process group.
-    # This allows us to kill the Streamlit app and all its children.
     return subprocess.Popen(command, preexec_fn=os.setsid)
+
+
+def run_fastapi_app(port):
+    """Run the FastAPI app using uvicorn."""
+    command = ["uvicorn", "backend.main:app", "--host", "0.0.0.0", "--port", str(port), "--reload"]
+    return subprocess.Popen(command, preexec_fn=os.setsid)
+
 
 def main():
     """Start all services."""
@@ -19,25 +25,25 @@ def main():
         print("Signal received, cleaning up processes...")
         for p in processes:
             try:
-                # Kill the entire process group
                 os.killpg(os.getpgid(p.pid), signal.SIGTERM)
             except ProcessLookupError:
-                pass # Process already dead
-        if 'httpd' in locals() and httpd:
-            httpd.server_close()
+                pass  # Process already dead
         print("Cleanup complete. Exiting.")
         exit(0)
 
-    # Register signal handlers for graceful shutdown
+    # Register cleanup handlers
     signal.signal(signal.SIGINT, cleanup)
     signal.signal(signal.SIGTERM, cleanup)
 
-    # Kill any processes that may be running on the ports we need
-    for port in [8000, 8501, 8502, 8503]:
-        # Using fuser to kill processes on the port. It's more reliable.
-        # The `-k` option kills the process, `-n tcp` specifies the namespace.
+    # Free up used ports before starting services
+    ports = [8000, 8001, 8501, 8502, 8503]
+    for port in ports:
         subprocess.run(f"fuser -k -n tcp {port}", shell=True, stderr=subprocess.DEVNULL)
-        time.sleep(0.5) # Give time for the port to be released
+        time.sleep(0.5)
+
+    # Start FastAPI backend
+    processes.append(run_fastapi_app(8001))
+    print("Started FastAPI backend on port 8001")
 
     # Start Streamlit apps
     apps = {
@@ -50,7 +56,7 @@ def main():
         processes.append(run_streamlit_app(port, path))
         print(f"Started Streamlit app on port {port}")
 
-    # Start the static web server
+    # Start static web server
     server_address = ("", 8000)
     try:
         httpd = HTTPServer(server_address, SimpleHTTPRequestHandler)
@@ -58,7 +64,6 @@ def main():
         httpd.serve_forever()
     except OSError as e:
         print(f"Error starting static server: {e}")
-        # Trigger cleanup if server fails to start
         cleanup(None, None)
     except KeyboardInterrupt:
         print("Keyboard interrupt received.")
