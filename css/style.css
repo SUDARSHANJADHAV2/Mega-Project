@@ -480,28 +480,33 @@ body {
 .about .box a {
   display: inline-block;
   margin: 0 0.5rem;
+}
+
+.about .box a i {
+  display: inline-block;
   width: 4rem;
   height: 4rem;
   line-height: 4rem;
   border-radius: 50%;
   color: var(--white);
   font-size: 1.8rem;
-  transition: all 0.3s ease;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
-.about .box a.fab.fa-instagram {
+.about .box a i.fa-instagram {
   background: linear-gradient(45deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888);
 }
 
-.about .box a.fab.fa-linkedin {
+.about .box a i.fa-linkedin,
+.about .box a i.fa-linkedin-in {
   background: #0077b5;
 }
 
-.about .box a.fab.fa-github {
+.about .box a i.fa-github {
   background: var(--dark-gray);
 }
 
-.about .box a:hover {
+.about .box a:hover i {
   transform: translateY(-3px);
   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
 }
