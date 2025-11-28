@@ -7,11 +7,7 @@ menu.onclick = () => {
   navbar.classList.toggle("active");
 };
 
-// Create scroll-to-top button
-const scrollTopBtn = document.createElement('button');
-scrollTopBtn.innerHTML = '<i class="fas fa-arrow-up"></i>';
-scrollTopBtn.classList.add('scroll-top-btn');
-document.body.appendChild(scrollTopBtn);
+
 
 // Handle scroll events
 window.onscroll = () => {
