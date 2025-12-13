@@ -3,7 +3,7 @@
 </div>
 
 <div align="center">
-    <h3>Link : https://aifarmerassistant-krushiai.netlify.app/ </h3>
+    <h3>Link : https://aifarmingassistant-krushiai.netlify.app/ </h3>
 </div>
 
 ![Screenshot 2025-01-22 210034](https://github.com/SUDARSHANJADHAV2/Mega-Project/blob/main/ScreenShots/HomePage.png)
