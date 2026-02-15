@@ -293,11 +293,10 @@
     </div>
 
     <script>
-        const API_KEY = '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';
-        const API_URL = 'https://openrouter.ai/api/v1/chat/completions';
+        const API_URL = '/api/chat';
         
         // Log API configuration for debugging
-        console.log('API configured and ready');
+        console.log('API configured via backend proxy');
 
         const chatContainer = document.getElementById('chatContainer');
         const messageInput = document.getElementById('messageInput');
@@ -371,7 +370,6 @@
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
-                        'Authorization': `Bearer ${API_KEY}`,
                         'Accept': 'application/json'
                     },
                     body: JSON.stringify({

@@ -6,6 +6,7 @@ import plotly.express as px
 import plotly.graph_objects as go
 from plotly.subplots import make_subplots
 import os
+import requests
 from datetime import datetime
 
 # Page config
@@ -268,15 +269,36 @@ with st.sidebar:
     
     # Environmental factors
     st.markdown("#### 🌤️ Environmental Conditions")
+
+    # Weather Integration Feature
+    with st.expander("🌤️ Auto-fill from Weather Data"):
+        city = st.text_input("Enter City Name", "")
+        if st.button("Fetch Weather"):
+            if city:
+                try:
+                    # Using the backend proxy
+                    response = requests.get(f"http://localhost:8000/api/weather/{city}")
+                    if response.status_code == 200:
+                        w_data = response.json()
+                        st.session_state.fert_temp = float(w_data['main']['temp'])
+                        st.session_state.fert_hum = float(w_data['main']['humidity'])
+                        st.success(f"Updated: {city} weather fetched.")
+                    else:
+                        st.error("City not found or API error.")
+                except Exception as e:
+                    st.error(f"Could not connect to weather service: {e}")
+            else:
+                st.warning("Please enter a city name.")
+
     temp = st.number_input(
         "🌡️ Temperature (°C)", 
-        min_value=0.0, max_value=60.0, value=26.0, step=0.5,
+        min_value=0.0, max_value=60.0, value=st.session_state.get('fert_temp', 26.0), step=0.5,
         help="Average temperature during crop growth period"
     )
     
     humidity = st.number_input(
         "💧 Humidity (%)", 
-        min_value=0.0, max_value=100.0, value=52.0, step=1.0,
+        min_value=0.0, max_value=100.0, value=st.session_state.get('fert_hum', 52.0), step=1.0,
         help="Relative humidity percentage"
     )
     
@@ -396,6 +418,29 @@ with col1:
                     # Main recommendation
                     st.success(f"🏆 **Recommended Fertilizer: {fertilizer_name}**")
                     st.info(f"🎯 **Confidence Score: {confidence:.1f}%**")
+
+                    # XAI: Feature Importance (Global)
+                    st.markdown("#### 🧠 Explainable AI: Feature Importance")
+                    try:
+                        import matplotlib.pyplot as plt
+                        import seaborn as sns
+
+                        importances = model.feature_importances_
+                        # Features: temp, humidity, moisture, soil, crop, N, K, P
+                        feature_names = ['Temp', 'Humidity', 'Moisture', 'Soil', 'Crop', 'N', 'K', 'P']
+
+                        feat_df = pd.DataFrame({
+                            'Feature': feature_names,
+                            'Importance': importances
+                        }).sort_values(by='Importance', ascending=False)
+
+                        fig_imp, ax_imp = plt.subplots(figsize=(10, 4), facecolor='#1a1a1a')
+                        sns.barplot(x='Importance', y='Feature', data=feat_df, palette='viridis', ax=ax_imp)
+                        ax_imp.set_title('Global Feature Importance (Random Forest)')
+                        plt.tight_layout()
+                        st.pyplot(fig_imp)
+                    except Exception as e:
+                        st.write("Feature importance visualization not available.")
                     
                     # Detailed fertilizer information
                     fert_info = get_fertilizer_info(fertilizer_name)
