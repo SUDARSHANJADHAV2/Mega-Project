@@ -3,14 +3,7 @@ import pickle
 import os
 import numpy as np
 
-BASE_DIR = os.path.join(os.getcwd(), 'KrushiAI-Fertilizer-Recommendation')
-
-@st.cache_resource
-def inject_custom_css():
-    css_file = os.path.join(os.getcwd(), 'css', 'streamlit_style.css')
-    if os.path.exists(css_file):
-        with open(css_file) as f:
-            st.markdown(f'<style>{f.read()}</style>', unsafe_allow_html=True)
+BASE_DIR = os.path.join(os.path.dirname(__file__), 'KrushiAI-Fertilizer-Recommendation')
 
 def load_fertilizer_assets():
     with open(os.path.join(BASE_DIR, 'Fertilizer_RF.pkl'), 'rb') as f:
@@ -22,7 +15,6 @@ def load_fertilizer_assets():
     return model, crop_enc, fert_enc
 
 def show_fertilizer_advice():
-    inject_custom_css()
     st.title("🧪 Fertilizer Recommendation")
     st.write("Get tailored fertilizer suggestions based on soil quality and crop needs.")
 
