@@ -13,6 +13,18 @@
 
 Smart Farming Assistant is an innovative solution that uses advanced technology to help farmers improve productivity and make better decisions. The platform features a Smart Crop Recommendation system powered by machine learning to suggest optimal crops based on soil nutrients, climate, and historical data. It also includes a Plant Disease Identification tool using convolutional neural networks (CNNs) to accurately diagnose plant diseases from uploaded images, enabling timely intervention. Additional features such as real-time Weather Forecasts, tailored Fertilizer Recommendations based on soil quality and crop requirements, and a Smart Farming Guide for crop management further enhance its value. With a user-friendly web app, farmers can easily access these insights and tools to improve farming practices.
 
+## 🚀 Unified Production Platform (New)
+
+The project has been enhanced into a production-grade unified platform with a centralized dashboard and secure authentication.
+
+### New Features:
+- [x] **Unified Dashboard**: Access all 7 modules from a single integrated interface (`main_app.py`).
+- [x] **Secure Authentication**: Multi-method login system (Email/Password, Google, Phone) with JWT security.
+- [x] **Soil Health Analysis**: Diagnostic scoring for soil quality assessment.
+- [x] **Market Intelligence**: Real-time agricultural commodity price tracking.
+- [x] **Yield Prediction**: Estimation of crop production based on regional parameters.
+- [x] **Enhanced Backend**: FastAPI-based secure proxy for all external integrations.
+
 ## Research Paper
 
 > This project is based on the research paper published on IJARCCE. You can find the paper at the following link:
@@ -115,7 +127,7 @@ These two models are integrated into the Smart Crop Recommendation System with P
 
 | Accuracy vs Crop Graphs | Accuracy vs Crop Graphs |
 | ----------- | -------------|
-| ![4](https://github.com/user-attachments/assets/ef096a91-ee2f-470e-a134-9c0ba9c4862a) | ![6](https://github.com/user-attachments/assets/84ed33e7-f496-469e-b663-f20997936ced) |
+| ![4](https://github.com/user-attachments/assets/ef096a91-ee2f-470e-a134-9c0ba9c4862a) | ![6](https://github.com/user-attachments/assets/8455aa24-1856-43f9-ab0e-07adeda49dda) |
 ![8](https://github.com/user-attachments/assets/a9230e96-b813-4213-90cc-6654f8cec69f) | ![10](https://github.com/user-attachments/assets/8455aa24-1856-43f9-ab0e-07adeda49dda) |
 ![12](https://github.com/user-attachments/assets/40d7bdeb-bc4f-40f5-97c3-110e229e30ca) | ![14](https://github.com/user-attachments/assets/639ba618-9930-467d-a462-354c5fd44a9c) |
 ![3](https://github.com/user-attachments/assets/69a9033f-cf39-45d3-93c9-57fb9ea8229d) | ![2](https://github.com/user-attachments/assets/70ffbe66-ca11-4b89-b2bf-16d1f71b5534) |
@@ -220,20 +232,3 @@ Found 17572 files belonging to 38 classes.
 If you have any questions or feedback, feel free to reach out to us at [🔗Link](https://aifarmerassistant-krushiai.netlify.app/).
 
 ---
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
