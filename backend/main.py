@@ -18,7 +18,12 @@ except ImportError:
 load_dotenv()
 
 # Security Config
-SECRET_KEY = os.getenv("JWT_SECRET", "super-secret-krushiai-key-change-me-in-prod")
+SECRET_KEY = os.getenv("JWT_SECRET")
+if not SECRET_KEY:
+    import secrets
+    print("WARNING: JWT_SECRET not found in environment. Generating a temporary secret.")
+    SECRET_KEY = os.getenv("JWT_SECRET", secrets.token_hex(32))
+
 ALGORITHM = "HS256"
 ACCESS_TOKEN_EXPIRE_MINUTES = 60 * 24 # 1 day
 
@@ -66,11 +71,13 @@ async def register(request: Request, db: Session = Depends(get_db)):
     full_name = data.get("full_name")
     phone = data.get("phone")
 
-    if not email and not phone:
-         raise HTTPException(status_code=400, detail="Email or Phone is required")
+    if not email:
+         raise HTTPException(status_code=400, detail="Email is required")
+    if not password:
+         raise HTTPException(status_code=400, detail="Password is required")
 
     # Check if user exists
-    user_exists = db.query(User).filter((User.email == email) | (User.phone == phone)).first()
+    user_exists = db.query(User).filter(User.email == email).first()
     if user_exists:
         raise HTTPException(status_code=400, detail="User already registered")
 

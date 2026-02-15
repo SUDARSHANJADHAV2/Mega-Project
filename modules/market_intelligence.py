@@ -1,10 +1,18 @@
 import streamlit as st
 import pandas as pd
+import os
 import plotly.express as px
 import numpy as np
 from datetime import datetime, timedelta
 
+def inject_custom_css():
+    css_file = os.path.join(os.getcwd(), 'css', 'streamlit_style.css')
+    if os.path.exists(css_file):
+        with open(css_file) as f:
+            st.markdown(f'<style>{f.read()}</style>', unsafe_allow_html=True)
+
 def show_market_intelligence():
+    inject_custom_css()
     st.title("📈 Market Intelligence")
     st.write("Real-time (simulated) commodity price tracking and trends.")
 
