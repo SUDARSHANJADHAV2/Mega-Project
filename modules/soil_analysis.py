@@ -1,7 +1,15 @@
 import streamlit as st
 import pandas as pd
+import os
+
+def inject_custom_css():
+    css_file = os.path.join(os.getcwd(), 'css', 'streamlit_style.css')
+    if os.path.exists(css_file):
+        with open(css_file) as f:
+            st.markdown(f'<style>{f.read()}</style>', unsafe_allow_html=True)
 
 def show_soil_analysis():
+    inject_custom_css()
     st.title("🧪 Soil Health Analysis")
     st.write("Get a detailed diagnostic of your soil health based on nutrient levels.")
 
