@@ -5,20 +5,10 @@ from PIL import Image
 import os
 
 # Path to model
-MODEL_PATH = os.path.join(os.getcwd(), 'KrushiAI-Disease-Recognition', 'trained_plant_disease_model.keras')
-
-@st.cache_resource
-def load_disease_model():
-    return tf.keras.models.load_model(MODEL_PATH)
-
-def inject_custom_css():
-    css_file = os.path.join(os.getcwd(), 'css', 'streamlit_style.css')
-    if os.path.exists(css_file):
-        with open(css_file) as f:
-            st.markdown(f'<style>{f.read()}</style>', unsafe_allow_html=True)
+MODEL_PATH = os.path.join(os.path.dirname(__file__), 'KrushiAI-Disease-Recognition', 'trained_plant_disease_model.keras')
 
 def model_prediction(test_image):
-    model = load_disease_model()
+    model = tf.keras.models.load_model(MODEL_PATH)
     image = Image.open(test_image)
     image = image.resize((128, 128))
     input_arr = tf.keras.preprocessing.image.img_to_array(image)
@@ -27,7 +17,6 @@ def model_prediction(test_image):
     return np.argmax(predictions) # return index of max prediction
 
 def show_disease_detection():
-    inject_custom_css()
     st.title("🌿 Plant Disease Detection")
     st.write("Identify plant diseases from leaf images.")
 

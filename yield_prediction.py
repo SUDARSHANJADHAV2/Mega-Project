@@ -1,14 +1,6 @@
 import streamlit as st
-import os
-
-def inject_custom_css():
-    css_file = os.path.join(os.getcwd(), 'css', 'streamlit_style.css')
-    if os.path.exists(css_file):
-        with open(css_file) as f:
-            st.markdown(f'<style>{f.read()}</style>', unsafe_allow_html=True)
 
 def show_yield_prediction():
-    inject_custom_css()
     st.title("🌾 Yield Prediction")
     st.write("Estimate your crop production based on area and historical data.")
 
