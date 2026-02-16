@@ -3,16 +3,51 @@ __pycache__/
 *.py[cod]
 *$py.class
 .pytest_cache/
+*.egg-info/
+dist/
+build/
+.eggs/
+
+# Virtual Environment
+.venv/
+venv/
+env/
+ENV/
+
+# Environment Variables
 .env
 
 # Streamlit
 .streamlit/
 
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
 # OS
 .DS_Store
+Thumbs.db
+desktop.ini
 
 # Logs
 *.log
 
 # Databases
 *.db
+*.sqlite3
+
+# ML Model artifacts (large files - keep .pkl files tracked for this project)
+# *.pkl
+
+# Jupyter checkpoints
+.ipynb_checkpoints/
+*-checkpoint.ipynb
+
+# Verification screenshots
+verification/
+
+# Node modules (if any)
+node_modules/

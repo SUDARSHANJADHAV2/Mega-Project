@@ -763,6 +763,56 @@ body {
 .p-2 { padding: 2rem; }
 .p-3 { padding: 3rem; }
 
+/* Scroll to Top Button */
+.scroll-top-btn {
+  position: fixed;
+  bottom: 3rem;
+  right: 3rem;
+  z-index: 999;
+  width: 5rem;
+  height: 5rem;
+  border-radius: 50%;
+  background: var(--gradient-green);
+  color: var(--white);
+  font-size: 2rem;
+  cursor: pointer;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(20px);
+  transition: all 0.3s ease;
+  box-shadow: 0 5px 15px rgba(45, 90, 39, 0.3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.scroll-top-btn.show {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+
+.scroll-top-btn:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 25px rgba(45, 90, 39, 0.4);
+}
+
+/* Active Navigation Link */
+.header .navbar a.active-link {
+  color: var(--primary-green);
+  font-weight: 600;
+}
+
+.header .navbar a.active-link::before {
+  width: 100%;
+}
+
+/* Animation Visible State */
+.animate-visible {
+  opacity: 1 !important;
+  transform: translateY(0) !important;
+}
+
 /* Print Styles */
 @media print {
   * {
@@ -771,7 +821,8 @@ body {
   }
   
   .header,
-  .footer {
+  .footer,
+  .scroll-top-btn {
     display: none;
   }
   
