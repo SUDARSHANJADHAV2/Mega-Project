@@ -1,10 +1,10 @@
 // Weather App JavaScript with proper error handling and fallbacks
 class WeatherApp {
     constructor() {
-        // Using Backend Proxy for security
-        this.API_BASE = '/api/weather';
-        this.GEO_API = '/api/geo';
-        this.FORECAST_API = '/api/forecast';
+        // Using OpenWeatherMap API (requires free API key)
+        this.API_KEY = 'c057b6fe9ccb5c8695464878916fe008';
+        this.API_BASE = 'https://api.openweathermap.org/data/2.5';
+        this.GEO_API = 'https://api.openweathermap.org/geo/1.0';
         
         this.initializeElements();
         this.initializeEventListeners();
@@ -147,16 +147,38 @@ class WeatherApp {
         this.showLoading();
 
         try {
-            // First, get coordinates for the city via backend proxy
-            const geoResponse = await fetch(
-                `${this.GEO_API}/${encodeURIComponent(cityName)}`
+            // Test if API key is working by making a simple request first
+            const testResponse = await fetch(
+                `${this.API_BASE}/weather?q=London&appid=${this.API_KEY}&units=metric`
             );
 
+            if (testResponse.status === 401) {
+                throw new Error('Invalid API key. Please check your OpenWeatherMap API key.');
+            }
+
+            if (testResponse.status === 429) {
+                throw new Error('API rate limit exceeded. Please try again later.');
+            }
+
+            // First, get coordinates for the city
+            const geoResponse = await fetch(
+                `${this.GEO_API}/direct?q=${encodeURIComponent(cityName)}&limit=1&appid=${this.API_KEY}`
+            );
+
+            console.log('Geo API response status:', geoResponse.status);
+
             if (!geoResponse.ok) {
-                throw new Error('Location not found');
+                if (geoResponse.status === 401) {
+                    throw new Error('Invalid API key');
+                } else if (geoResponse.status === 429) {
+                    throw new Error('Rate limit exceeded');
+                } else {
+                    throw new Error('Location not found');
+                }
             }
 
             const geoData = await geoResponse.json();
+            console.log('Geo data:', geoData);
 
             if (geoData.length === 0) {
                 this.showLocationNotFound();
@@ -170,30 +192,70 @@ class WeatherApp {
 
         } catch (error) {
             console.error('Weather search error:', error);
-            this.showError(`Error: ${error.message}. Please try again.`);
+            
+            if (error.message.includes('API key')) {
+                this.showError('Invalid API key. Please verify your OpenWeatherMap API key is correct and activated.');
+            } else if (error.message.includes('rate limit')) {
+                this.showError('Too many requests. Please wait a moment and try again.');
+            } else if (error.message === 'Location not found') {
+                this.showLocationNotFound();
+            } else {
+                this.showError(`Error: ${error.message}. Please try again.`);
+            }
         }
     }
 
     async getWeatherByCoords(lat, lon) {
         try {
-            // Get current weather via backend proxy
+            console.log(`Fetching weather for coordinates: ${lat}, ${lon}`);
+
+            // Get current weather
             const weatherResponse = await fetch(
-                `${this.API_BASE}/coords/${lat}/${lon}`
+                `${this.API_BASE}/weather?lat=${lat}&lon=${lon}&appid=${this.API_KEY}&units=metric`
             );
+
+            console.log('Weather API response status:', weatherResponse.status);
+
+            if (weatherResponse.status === 401) {
+                throw new Error('Invalid API key');
+            }
+
+            if (weatherResponse.status === 429) {
+                throw new Error('Rate limit exceeded');
+            }
 
             if (!weatherResponse.ok) {
                 throw new Error(`Weather API error: ${weatherResponse.status}`);
             }
 
-            // Get 5-day forecast via backend proxy
+            // Get 5-day forecast
             const forecastResponse = await fetch(
-                `${this.FORECAST_API}/coords/${lat}/${lon}`
+                `${this.API_BASE}/forecast?lat=${lat}&lon=${lon}&appid=${this.API_KEY}&units=metric`
             );
 
-            // Mock UV data as it's often not available in free tier or requires separate call
-            let uvData = { value: Math.floor(Math.random() * 11) };
+            console.log('Forecast API response status:', forecastResponse.status);
+
+            if (!forecastResponse.ok) {
+                console.warn('Forecast data not available');
+            }
+
+            // Try to get UV Index (this might not be available for free accounts)
+            let uvData = {};
+            try {
+                const uvResponse = await fetch(
+                    `${this.API_BASE}/uvi?lat=${lat}&lon=${lon}&appid=${this.API_KEY}`
+                );
+                if (uvResponse.ok) {
+                    uvData = await uvResponse.json();
+                }
+            } catch (uvError) {
+                console.warn('UV data not available:', uvError);
+                uvData = { value: Math.floor(Math.random() * 11) }; // Fallback
+            }
 
             const weatherData = await weatherResponse.json();
+            console.log('Weather data:', weatherData);
+
             this.displayCurrentWeather(weatherData, uvData);
 
             if (forecastResponse.ok) {
