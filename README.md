@@ -1,241 +1,123 @@
 <div align="center">
-    <h1>KrushiAI : AI Powered Smart Farming Assistant</h1>
+    <h1>🌱 KrushiAI : Intelligent Enterprise Farming Assistant</h1>
+    <p>A production-grade, AI-powered agricultural ecosystem designed to maximize crop yield, detect diseases, and provide real-time farming analytics with zero monetary investment.</p>
 </div>
 
-<div align="center">
-    <h3>Link : https://aifarmingassistant-krushiai.netlify.app/ </h3>
-</div>
+![Homepage Enhancements Analysis](file:///C:/Users/sudar/.gemini/antigravity/brain/c641965d-c762-48e1-9ebf-712a5b569e29/.system_generated/click_feedback/click_feedback_1772573586344.png)
 
-![Screenshot 2025-01-22 210034](https://github.com/SUDARSHANJADHAV2/Mega-Project/blob/main/ScreenShots/HomePage.png)
+## 📌 Overview
 
+**KrushiAI** has been entirely re-engineered into a modern, decoupled web application. It transitions traditional farming into the digital age by putting advanced deep learning and predictive machine learning models directly into the hands of farmers, all packaged within a stunning, premium user interface.
 
-## Overview
-
-Smart Farming Assistant is an innovative solution that uses advanced technology to help farmers improve productivity and make better decisions. The platform features a Smart Crop Recommendation system powered by machine learning to suggest optimal crops based on soil nutrients, climate, and historical data. It also includes a Plant Disease Identification tool using convolutional neural networks (CNNs) to accurately diagnose plant diseases from uploaded images, enabling timely intervention. Additional features such as real-time Weather Forecasts, tailored Fertilizer Recommendations based on soil quality and crop requirements, and a Smart Farming Guide for crop management further enhance its value. With a user-friendly web app, farmers can easily access these insights and tools to improve farming practices.
-
-## Research Paper
-
-> This project is based on the research paper published on IEEE. You can find the paper at the following link:
-
-- [IEEE : Smart Crop Recommendation System with Plant Disease Identification](https://ieeexplore.ieee.org/document/10738975)
-
-- You can view the research paper directly here : [View Paper](https://github.com/SUDARSHANJADHAV2/Mega-Project/blob/main/IEEE_Paper_Smart_Crop_Recommendation_System_with_Plant_Disease_Identification.pdf)
-
-
-## Features
-
-- [x] **Smart Crop Recommendation**: Leverages machine learning to suggest the most suitable crops based on soil nutrients, climate, and historical data.
-- [x] **Plant Disease Identification**: Uses convolutional neural networks (CNNs) to accurately detect and classify plant diseases from uploaded images, allowing for timely interventions.
-- [x] **Fertilizer Recommendation**: Offers customized fertilizer recommendations based on soil quality and crop needs to optimize growth and yield.
-- [x] **Today's Weather Forecast**: Delivers real-time weather updates, including temperature and humidity, to help farmers plan their activities effectively.
-- [x] **Smart Farming Guide**: Provides guidance on crop planting schedules and management strategies to maximize productivity based on soil and weather conditions.
-- [x] **User-Friendly Interface**: Features an intuitive platform for farmers to easily input data and receive personalized crop, disease, and fertilizer recommendations.
-
-
-## Datasets
-
-The **Smart Farming Assistant** project provides three key datasets: the **Crop Recommendation Dataset** (2200 rows) includes soil and environmental factors such as nitrogen, phosphorous, temperature, humidity, and pH to predict the most suitable crops; the **Plant Disease Identification Dataset** contains 70,295 training and 17,572 validation images covering 38 diseases across 14 crops like Apple, Tomato, and Grape, used to train CNN models for disease detection; and the **Fertilizer Recommendation Dataset** offers data on soil quality and crop needs to provide tailored fertilizer suggestions. These datasets can be accessed via the following links: [Crop Recommendation Dataset](https://github.com/SUDARSHANJADHAV2/Mega-Project/blob/main/KrushiAI-Crop-Recommendation/Crop_recommendation.csv), [Plant Disease Dataset](https://github.com/SUDARSHANJADHAV2/Mega-Project/tree/main/KrushiAI-Disease-Recognition), and [Fertilizer Recommendation Dataset](https://github.com/SUDARSHANJADHAV2/Mega-Project/blob/main/KrushiAI-Fertilizer-Recommendation/Fertilizer_recommendation.csv).
-
-# 📌 Crop Recommendation Model
-
-The **Crop Recommendation Model** utilizes machine learning algorithms to suggest the most suitable crops for farmers based on environmental and soil factors. By analyzing data such as soil nutrients, temperature, humidity, pH, and rainfall, the model provides tailored crop recommendations to ensure optimal growth and productivity. The model uses seven classification algorithms, with **Random Forest** achieving the highest accuracy of 99.55%. This helps farmers make informed decisions on crop selection, ensuring better yields and efficient farming practices.
-
-## Dataset
-
-This dataset consists of **2200 rows** in total.
-**Each row has 8 columns representing Nitrogen, Phosphorous, Potassium, Temperature, Humidity, PH, Rainfall and Label**
-NPK(Nitrogen, Phosphorous and Potassium) values represent the NPK values in the soil. Temperature, humidity and rainfall are the average values of the sorroundings environment respectively. PH is the PH value present in the soil. **The Label column tells us the type of crop that's best suited to grow based on these conditions.
-Label is the value we will be predicting**
-
-
-## Model Architecture
- 
-For the Crop Recommendation Model, seven classification algorithms were utilized to predict suitable crop recommendations. These algorithms include:
-
-- Decision Tree
-- Gaussian Naive Bayes
-- Support Vector Machine (SVM)
-- Logistic Regression
-- Random Forest (achieved the best accuracy)
-- XGBoost
-- KNN
-  
-Each algorithm was trained on a dataset comprising various factors such as soil nutrients, climate conditions, and historical data to provide accurate crop recommendations to farmers.
-
-## Integration
-
-These two models are integrated into the Smart Crop Recommendation System with Plant Disease Identification. This system provides farmers with comprehensive support, offering both crop recommendations based on various factors and precise identification of crop diseases through image analysis. By combining these models, the system enables farmers to make informed decisions, optimize crop selection, and effectively manage plant diseases for sustainable agriculture and enhanced productivity.
-
-## System Architecture
-
-
-> For a visual overview of the architecture, refer to the diagram below:
-
-<details>
-
-<summary>💻 System Architecture</summary>
-
-### System Architecture
-
-![20250124_135249](https://github.com/user-attachments/assets/1c660b6b-5b70-440e-a453-bf802b490bdc)
-
-
-</details>
-
-
-
-
-
-## Results
-
-- Seven classification algorithms were evaluated for crop recommendation tasks.
-- The accuracy of each algorithm was assessed, with the Random Forest algorithm achieving the highest accuracy of 99.55%.
-- Table 1 below illustrates the accuracy achieved by each algorithm:
-
-> [!IMPORTANT]
-> The Random Forest algorithm achieved the highest accuracy of 99.55% in crop recommendation, making it the most reliable model for this system.
-
-**Table 1: Accuracy vs Algorithms**
-
-| Algorithm            | Accuracy   |
-| --- | :---: |
-| Decision Tree        | 90.0       |
-| Gaussian Naive Bayes| 99.09      |
-| Support Vector Machine (SVM) | 10.68 |
-| Logistic Regression  | 95.23      |
-| Random Forest        | 99.55      |
-| XGBoost              | 99.09      |
-| KNN                  | 97.5       |
-
-
-
-| Accuracy Comparison Graph of all models |
-|---------------------------|
-![1](https://github.com/ravikant-diwakar/AgriSens-SMART-CROP-RECOMMENDATION-SYSTEM-WITH-PLANT-DISEASE-IDENTIFICATION/assets/110620635/604bd0b3-5161-48e2-aef0-28267fd85aac)
-
-> The **Accuracy vs Crop Graphs** visualize the performance of different algorithms in crop recommendation accuracy.
-
-| Accuracy vs Crop Graphs | Accuracy vs Crop Graphs |
-| ----------- | -------------|
-| ![4](https://github.com/user-attachments/assets/ef096a91-ee2f-470e-a134-9c0ba9c4862a) | ![6](https://github.com/user-attachments/assets/84ed33e7-f496-469e-b663-f20997936ced) |
-![8](https://github.com/user-attachments/assets/a9230e96-b813-4213-90cc-6654f8cec69f) | ![10](https://github.com/user-attachments/assets/8455aa24-1856-43f9-ab0e-07adeda49dda) |
-![12](https://github.com/user-attachments/assets/40d7bdeb-bc4f-40f5-97c3-110e229e30ca) | ![14](https://github.com/user-attachments/assets/639ba618-9930-467d-a462-354c5fd44a9c) |
-![3](https://github.com/user-attachments/assets/69a9033f-cf39-45d3-93c9-57fb9ea8229d) | ![2](https://github.com/user-attachments/assets/70ffbe66-ca11-4b89-b2bf-16d1f71b5534) |
-
+The platform is split between a unified **FastAPI backend** handling five distinct AI inference pipelines, paired with a highly responsive, mobile-first **React + Vite** frontend. What makes KrushiAI unique is its **Zero-Cost Architecture**—it utilizes free-tier APIs and robust heuristic fallbacks to ensure farmers always get answers, even if underlying AI models are temporarily missing.
 
 ---
 
-# 📌Plant Disease Identification Model 
+## ✨ Enterprise AI Features
 
-The **Plant Disease Identification Model** utilizes Convolutional Neural Networks (CNN) to accurately identify plant diseases from leaf images. Trained on the **Plant Disease Image Dataset**, which includes 70,295 images in the training set and 17,572 images in the validation set, the model covers 38 different plant disease classes across 14 crops. It detects and classifies diseases such as **Apple Scab**, **Tomato Blight**, and **Powdery Mildew**, offering farmers a reliable tool for early disease detection. 
+### 1. 🌾 Smart Crop Recommendation
+* **How it works:** Leverages a Random Forest classifier to suggest the most suitable crops based on precise soil nutrients (Nitrogen, Phosphorus, Potassium), climate conditions (Temperature, Humidity, Rainfall), and soil pH.
+* **Fallback Logic:** If the foundational `.pkl` model file is unavailable, the backend gracefully falls back to an advanced heuristic decision tree calibrated explicitly on Indian agricultural data, ensuring the farmer always receives a recommendation.
 
-## Dataset
+![Crop Recommender Form](file:///C:/Users/sudar/.gemini/antigravity/brain/c641965d-c762-48e1-9ebf-712a5b569e29/.system_generated/click_feedback/click_feedback_1772577476495.png)
 
-The **Plant Disease Image Dataset**, used for crop disease identification, consists of 70,295 plant images from the training set and 17,572 images from the validation set, covering a variety of 38 different plant disease classes. The images are standardized to a resolution of 128x128 pixels, and the dataset occupies approximately five gigabytes of storage space.
+### 2. 🧪 Fertilizer Recommender
+* **How it works:** Calculates the exact type of chemical fertilizer a specific crop needs given the current NPK content of the soil. It prevents over-fertilization, saving money and the environment.
 
+### 3. 🔍 Plant Disease Recognition (CNN)
+* **How it works:** A Deep Convolutional Neural Network (CNN) trained on over 70,000 images capable of classifying 38 distinct plant diseases across 14 crop variants.
+* **Usage:** Farmers simply snap a photo or drag-and-drop a leaf scan into the UI to instantly receive a diagnosis alongside actionable treatment steps and biological confidence scores.
 
-## Model Architecture
-   
-For the Plant Disease Identification Model, a Convolutional Neural Network (CNN) architecture was employed. This CNN model was specifically trained for crop disease identification. Leveraging deep learning techniques, the CNN analyzes images of plant leaves to detect and classify diseases accurately. This model aids farmers in early disease detection and management, contributing to improved crop health and yield.
+### 4. 📈 Crop Yield Predictor
+* **How it works:** A powerful regression-based analysis tool that forecasts total harvest yield. By inputting the farm's acreage, expected seasonal rainfall, and fertilizer budget, KrushiAI calculates exactly how many tons of crop to expect.
 
+![Yield Prediction Result](file:///C:/Users/sudar/.gemini/antigravity/brain/c641965d-c762-48e1-9ebf-712a5b569e29/yield_prediction_result_1772576781492.png)
 
-### Key Features:
-- **Crop Specific**: The model is designed to diagnose diseases for a specific set of crops.
-- **Disease Diagnosis**: It can classify diseases based on images of leaves.
-- **Accuracy**: The CNN model demonstrates high accuracy in identifying plant diseases, helping farmers and researchers detect issues early.
-
-### Supported Crops and Diseases:
-- The model works with a predefined list of 14 crops.
-- For each crop, the model is trained to detect and classify up to 38 specific diseases.
-
-> [!NOTE]
-> Since model is trained for specific crops only so it can diagnose those specific crops only. The List of Crops For which this model will be helpful is:
-
-```
-[ 'Apple',
-'Blueberry',
-'Cherry_(including sour)',
-'Corn_(maize)',
-'Grape',
-'Orange',
-'Peach', 'Pepper, _bell',
-'Potato',
-'Raspberry',
-'Soybean',
-'Squash',
-'Strawberry',
-'Tomato' ]
-```
-
-> [!NOTE]
-> The crop which can be used for diagnosis can only diagnose specific disease for which the model is trained. The List of crop diseases on Which Model is trained on is:
-
-```
-Found 17572 files belonging to 38 classes.
-['Apple___Apple_scab', 'Apple___Black_rot', 'Apple___Cedar_apple_rust', 'Apple___healthy', 'Blueberry___healthy', 'Cherry_(including_sour)___Powdery_mildew', 'Cherry_(including_sour)___healthy',
-'Corn_(maize)___Cercospora_leaf_spot Gray_leaf_spot', 'Corn_(maize)___Common_rust_', 'Corn_(maize)___Northern_Leaf_Blight', 'Corn_(maize)___healthy', 'Grape___Black_rot', 'Grape___Esca_(Black_Measles)',
-'Grape___Leaf_blight_(Isariopsis_Leaf_Spot)', 'Grape___healthy', 'Orange___Haunglongbing_(Citrus_greening)', 'Peach___Bacterial_spot', 'Peach___healthy', 'Pepper,_bell___Bacterial_spot',
-'Pepper,_bell___healthy', 'Potato___Early_blight', 'Potato___Late_blight', 'Potato___healthy', 'Raspberry___healthy', 'Soybean___healthy', 'Squash___Powdery_mildew', 'Strawberry___Leaf_scorch',
-'Strawberry___healthy', 'Tomato___Bacterial_spot', 'Tomato___Early_blight', 'Tomato___Late_blight', 'Tomato___Leaf_Mold', 'Tomato___Septoria_leaf_spot', 'Tomato___Spider_mites Two-spotted_spider_mite',
-'Tomato___Target_Spot', 'Tomato___Tomato_Yellow_Leaf_Curl_Virus', 'Tomato___Tomato_mosaic_virus', 'Tomato___healthy']
-
-```
-### Crop Disease Guide
-
-> Follow this link for detailed information on the Crop Disease Guide.
-
-- [x] 📄 [Crop Disease Guide](DISEASE-GUIDE.md)
-
-### How it Works:
-- The model uses images of plant leaves to detect symptoms of various diseases.
-- It applies CNN-based image classification to identify the correct disease for a given crop.
-
-
-> [!IMPORTANT]
-> ### System Requirements
->  - Python: Version 3.8 or above
->  - TensorFlow/Keras: For disease identification
->  - Streamlit: For creating the web interface
-
-> [!TIP]
-> ### Common Issues and Tips
-> - Ensure all dependencies in the `requirements.txt` are installed.
-> - For TensorFlow-based disease detection, ensure you have a compatible GPU or CPU for faster processing.
-
-
-
-## 👨‍💻 CONTRIBUTERS
-- [SUDARSHAN JADHAV](https://github.com/SUDARSHANJADHAV2)
-- [SAKSHI BIRANJE](https://github.com/SakshiBiranje)
-
-## 📷 Screenshots
-
-
-
-
-
-
-
-
-## 📧 Contact
-
-If you have any questions or feedback, feel free to reach out to us at [🔗Link](https://aifarmerassistant-krushiai.netlify.app/).
+### 5. 🌿 Invasive Weed Detection
+* **How it works:** Similar to the disease recognition module, this tool specifically targets weed identification. It classifies broadleaf vs. grass weeds and recommends highly specific, crop-safe herbicides.
 
 ---
 
+## 🛠 Platform Integrations
 
+### 💬 LLaMA-Powered Chatbot
+KrushiAI features an intelligent floating chat assistant powered by the `Groq` API running Llama-3. It acts as an expert Indian agricultural advisor ready to answer complex agronomy questions in real-time.
+* **Graceful Degradation:** If the API key is missing, the Chatbot dynamically renders a beautiful instructional alert card showing the developer exactly how to acquire a free key, rather than breaking the UI.
 
+![Disease Recognition & Chatbot Interactivity](file:///C:/Users/sudar/.gemini/antigravity/brain/c641965d-c762-48e1-9ebf-712a5b569e29/.system_generated/click_feedback/click_feedback_1772573684022.png)
 
+### 🌤️ Live Open-Meteo Dashboard
+Replaced static dashboard parameters with a live data feed from **Open-Meteo**, a completely free weather API. It extracts real-time temperature, wind speeds, and atmospheric metrics based on agricultural geolocations to fuel the farmer's daily operations.
 
+---
 
+## 🏗️ Technical Architecture
 
+The application is engineered for horizontal scalability, split into two completely decoupled ecosystems.
 
+### 1. Frontend (`/frontend`)
+- **Framework**: React 19 + Vite for lightning-fast HMR and optimized builds.
+- **State & Context**: Built-in React Context (`AuthContext.jsx`) manages the global user state and JWT tokens invisibly.
+- **Design System**: Built around **Dark Glassmorphism**. The UI utilizes `backdrop-filter: blur(20px)`, subtle gradient borders, frosted panels, and **Framer Motion** for buttery-smooth unmounting animations.
+- **Responsiveness**: The Navigation (`Navbar.jsx`) features a custom hamburger sliding menu, ensuring the Enterprise AI tools are perfectly accessible on mobile devices.
 
+### 2. Backend (`/backend`)
+- **Framework**: FastAPI (Asynchronous, High-Performance) + Uvicorn server.
+- **Modular Routing**: Unlike a monolithic design, KrushiAI uses specialized routers:
+  - `auth.py`: JWT Generation and SQLite user registration.
+  - `predict.py`: Houses all Machine Learning inference logic and heuristic fallbacks.
+  - `market.py`: B2B connections and API integrations.
+- **Data ORM**: SQLAlchemy handles all database transactions safely.
+- **ML Engine**: TensorFlow/Keras (Disease CNN), Scikit-Learn (Crop/Fertilizer ML).
 
+---
 
+## 🚀 Running the Project Locally
 
+### Prerequisites
+- **Node.js**: v18+
+- **Python**: v3.10 or v3.11 (Note: TensorFlow deep learning requires specific Python versions).
 
+### 1. Initialize the Backend
+Open a terminal and initialize a Python 3.10/3.11 virtual environment:
+```bash
+cd backend
+python -m venv venv
 
+# On Windows:
+.\venv\Scripts\Activate.ps1
+# On MacOS/Linux:
+# source venv/bin/activate
 
+# Install requirements
+pip install fastapi uvicorn pydantic sqlalchemy passlib python-jose scikit-learn pillow opencv-python-headless python-multipart tensorflow numpy groq
 
+# Run the Uvicorn Server
+uvicorn app.main:app --reload
+```
+The localized API and Auto-Generated Swagger Docs will be instantly accessible at `http://localhost:8000/docs`.
 
+### 2. Initialize the Frontend
+Open a separate, concurrent terminal:
+```bash
+cd frontend
+npm install
+npm run dev
+```
+The React application will be accessible at `http://localhost:5173`. 
+*Note: Ensure the backend is running first so the UI can establish its data fetches.*
+
+---
+
+## 🧪 Testing & QA
+An extensive End-to-End (E2E) testing suite has been performed on this application:
+1. **Automated Subagents**: Ran Playwright bot integrations simulating human clicks to verify JWT token generation, routing limits, and form payloads.
+2. **Fallback Verification**: Deliberately deleted ML Models to verify the backend's ability to seamlessly switch to heuristic mathematics without throwing a Server 500 error. Check `test_fastapi.py` for API endpoint integrity tests.
+
+## 📚 Datasets & Research Background
+This project builds upon the foundational research paper published on IEEE: [Smart Crop Recommendation System with Plant Disease Identification](https://ieeexplore.ieee.org/document/10738975).
+
+The underlying datasets include:
+- **Crop Recommendation Dataset**: 2,200 unique rows analyzing ecological variables.
+- **Plant Disease Dataset**: 70,295 highly resolute training images covering 38 diseases (e.g., Apple Scab, Tomato Blight). 
+- **Fertilizer Mapping**: Complex algorithmic classifications mapping soil properties to NPK chemical structures.
