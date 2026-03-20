@@ -132,12 +132,12 @@ const Chatbot = () => {
               position: 'fixed',
               bottom: '6rem',
               right: '2rem',
-              width: '350px',
-              height: '500px',
+              width: '380px',
+              height: '550px',
               display: 'flex',
               flexDirection: 'column',
               zIndex: 998,
-              boxShadow: '0 20px 40px rgba(0,0,0,0.5)',
+              boxShadow: '0 20px 50px rgba(0,0,0,0.6)',
               overflow: 'hidden'
             }}
           >
@@ -168,16 +168,18 @@ const Chatbot = () => {
                     {m.role === 'user' ? <User size={16} /> : <Bot size={16} />}
                   </div>
                   <div style={{ 
-                    background: m.role === 'user' ? '#6366f1' : (m.isError ? 'rgba(239, 68, 68, 0.1)' : 'rgba(30, 41, 59, 0.8)'),
-                    color: m.role === 'user' ? 'white' : (m.isError ? '#ef4444' : 'var(--text-main)'),
-                    padding: '0.75rem 1rem',
-                    borderRadius: '1rem',
-                    borderTopRightRadius: m.role === 'user' ? '0' : '1rem',
-                    borderTopLeftRadius: m.role === 'user' ? '1rem' : '0',
+                    background: m.role === 'user' ? 'linear-gradient(135deg, #6366f1, #818cf8)' : (m.isError ? 'rgba(244, 63, 94, 0.1)' : 'rgba(30, 41, 59, 0.85)'),
+                    color: m.role === 'user' ? 'white' : (m.isError ? '#f43f5e' : 'var(--text-main)'),
+                    padding: '0.9rem 1.1rem',
+                    borderRadius: '1.25rem',
+                    borderTopRightRadius: m.role === 'user' ? '0.25rem' : '1.25rem',
+                    borderTopLeftRadius: m.role === 'user' ? '1.25rem' : '0.25rem',
                     maxWidth: '85%',
-                    fontSize: '0.875rem',
+                    fontSize: '0.9rem',
                     lineHeight: 1.5,
-                    border: m.role !== 'user' ? (m.isError ? '1px solid rgba(239, 68, 68, 0.3)' : '1px solid var(--border)') : 'none',
+                    border: m.role !== 'user' ? (m.isError ? '1px solid rgba(244, 63, 94, 0.3)' : '1px solid var(--border)') : 'none',
+                    boxShadow: m.role === 'user' ? '0 4px 15px rgba(99, 102, 241, 0.3)' : 'none',
+                    backdropFilter: m.role !== 'user' ? 'blur(10px)' : 'none',
                     display: 'flex',
                     flexDirection: 'column',
                     gap: '0.5rem'
@@ -198,16 +200,16 @@ const Chatbot = () => {
                 </div>
               ))}
               {loading && (
-                <div style={{ display: 'flex', gap: '0.5rem', alignItems: 'center' }}>
-                    <div style={{ background: 'rgba(255,255,255,0.05)', padding: '0.5rem', borderRadius: '50%', color: 'var(--text-muted)' }}>
+                  <div style={{ display: 'flex', gap: '0.75rem', alignItems: 'flex-start' }}>
+                    <div className="animate-pulse-glow" style={{ background: 'rgba(255,255,255,0.05)', padding: '0.5rem', borderRadius: '50%', color: 'var(--text-muted)' }}>
                       <Bot size={16} />
                     </div>
-                    <div style={{ background: 'rgba(30, 41, 59, 0.8)', padding: '0.75rem 1rem', borderRadius: '1rem', borderTopLeftRadius: '0', display: 'flex', gap: '4px' }}>
-                      <motion.div animate={{ y: [0, -5, 0] }} transition={{ repeat: Infinity, duration: 0.6 }} style={{ width: '6px', height: '6px', borderRadius: '50%', background: 'var(--text-muted)' }} />
-                      <motion.div animate={{ y: [0, -5, 0] }} transition={{ repeat: Infinity, duration: 0.6, delay: 0.2 }} style={{ width: '6px', height: '6px', borderRadius: '50%', background: 'var(--text-muted)' }} />
-                      <motion.div animate={{ y: [0, -5, 0] }} transition={{ repeat: Infinity, duration: 0.6, delay: 0.4 }} style={{ width: '6px', height: '6px', borderRadius: '50%', background: 'var(--text-muted)' }} />
+                    <div style={{ background: 'rgba(30, 41, 59, 0.85)', padding: '1rem', borderRadius: '1.25rem', borderTopLeftRadius: '0.25rem', display: 'flex', gap: '6px', backdropFilter: 'blur(10px)', border: '1px solid var(--border)' }}>
+                      <motion.div animate={{ scale: [1, 1.3, 1], opacity: [0.5, 1, 0.5] }} transition={{ repeat: Infinity, duration: 1 }} style={{ width: '8px', height: '8px', borderRadius: '50%', background: '#6366f1' }} />
+                      <motion.div animate={{ scale: [1, 1.3, 1], opacity: [0.5, 1, 0.5] }} transition={{ repeat: Infinity, duration: 1, delay: 0.2 }} style={{ width: '8px', height: '8px', borderRadius: '50%', background: '#6366f1' }} />
+                      <motion.div animate={{ scale: [1, 1.3, 1], opacity: [0.5, 1, 0.5] }} transition={{ repeat: Infinity, duration: 1, delay: 0.4 }} style={{ width: '8px', height: '8px', borderRadius: '50%', background: '#6366f1' }} />
                     </div>
-                </div>
+                  </div>
               )}
               <div ref={messagesEndRef} />
             </div>

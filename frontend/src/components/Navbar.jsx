@@ -55,8 +55,10 @@ const Navbar = () => {
                   <NavLink to="/crop" className="dropdown-item">Crop Recommender</NavLink>
                   <NavLink to="/yield" className="dropdown-item">Yield Predictor <span className="badge">New</span></NavLink>
                   <NavLink to="/weed" className="dropdown-item">Weed Detector <span className="badge">New</span></NavLink>
+                  <NavLink to="/pest" className="dropdown-item">Pest Recognition <span className="badge">New</span></NavLink>
+                  <NavLink to="/irrigation" className="dropdown-item">Irrigation Forecaster <span className="badge">New</span></NavLink>
                   <NavLink to="/fertilizer" className="dropdown-item">Fertilizer Recommender</NavLink>
-                  <NavLink to="/disease" className="dropdown-item">Disease Recognition</NavLink>
+                  <NavLink to="/disease" className="dropdown-item">Disease Diagnosis</NavLink>
                 </motion.div>
               )}
             </AnimatePresence>
@@ -108,8 +110,10 @@ const Navbar = () => {
                   <NavLink to="/crop" className="mobile-nav-link">Crop Recommender</NavLink>
                   <NavLink to="/yield" className="mobile-nav-link" style={{ display: 'flex', justifyContent: 'space-between' }}>Yield Predictor <span className="badge">New</span></NavLink>
                   <NavLink to="/weed" className="mobile-nav-link" style={{ display: 'flex', justifyContent: 'space-between' }}>Weed Detector <span className="badge">New</span></NavLink>
+                  <NavLink to="/pest" className="mobile-nav-link" style={{ display: 'flex', justifyContent: 'space-between' }}>Pest Recognition <span className="badge">New</span></NavLink>
+                  <NavLink to="/irrigation" className="mobile-nav-link" style={{ display: 'flex', justifyContent: 'space-between' }}>Irrigation <span className="badge">New</span></NavLink>
                   <NavLink to="/fertilizer" className="mobile-nav-link">Fertilizer Recommender</NavLink>
-                  <NavLink to="/disease" className="mobile-nav-link">Disease Recognition</NavLink>
+                  <NavLink to="/disease" className="mobile-nav-link">Disease Diagnosis</NavLink>
                </div>
 
                <div style={{ component: 'hr', borderTop: '1px solid rgba(255,255,255,0.1)', margin: '1rem 0' }}></div>

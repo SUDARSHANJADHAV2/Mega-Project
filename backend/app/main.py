@@ -1,16 +1,22 @@
 import warnings
 import os
+import random
+
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from dotenv import load_dotenv
-from groq import Groq
+import google.generativeai as genai
+import uvicorn
+
+from app import models
+from app.database import engine
+from app.routers import auth, predict, ledger, market
+from app.schemas import ChatRequest, MarketPriceRequest
 
 warnings.filterwarnings('ignore')
 load_dotenv()
 
 # Setup Database
-from app import models
-from app.database import engine
 models.Base.metadata.create_all(bind=engine)
 
 app = FastAPI(title="KrushiAI Unified Backend API V2")
@@ -25,8 +31,6 @@ app.add_middleware(
 )
 
 # --- ROUTERS ---
-from app.routers import auth, predict, ledger, market
-
 app.include_router(auth.router)
 app.include_router(predict.router)
 app.include_router(ledger.router)
@@ -36,49 +40,35 @@ app.include_router(market.router)
 def read_root():
     return {"status": "ok", "message": "Welcome to KrushiAI Unified Backend API V2"}
 
-from app.schemas import ChatRequest
-
 @app.post("/api/chatbot")
 async def handle_chatbot(req: ChatRequest):
     """
-    Real LLM responder using Groq API (Llama-3) for zero-cost, high-speed inference.
+    Real LLM responder using Gemini API for zero-cost, high-speed inference.
     """
-    groq_api_key = os.getenv("GROQ_API_KEY")
-    if not groq_api_key or groq_api_key == "gsk_your_free_groq_api_key_here":
-        return {"reply": "Configuration Error: Please add your free GROQ_API_KEY to the backend/.env file to enable the real AI assistant!"}
+    gemini_api_key = os.getenv("GEMINI_API_KEY")
+    if not gemini_api_key:
+        return {"reply": "Configuration Error: Please add your free GEMINI_API_KEY to the backend/.env file to enable the real AI assistant!"}
 
     try:
-        client = Groq(api_key=groq_api_key)
+        genai.configure(api_key=gemini_api_key)
         system_prompt = "You are KrushiAI, an expert Indian agricultural advisor. Provide short, practical, and highly accurate farming advice regarding crops, setup, market prices, and soil health. Do not hallucinate."
+        model = genai.GenerativeModel('gemini-1.5-flash', system_instruction=system_prompt)
         
-        chat_completion = client.chat.completions.create(
-            messages=[
-                {
-                    "role": "system",
-                    "content": system_prompt,
-                },
-                {
-                    "role": "user",
-                    "content": req.message,
-                }
-            ],
-            model="llama3-8b-8192",
-            max_tokens=256,
+        response = model.generate_content(
+            req.message,
+            generation_config=genai.types.GenerationConfig(max_output_tokens=2048)
         )
         
-        reply = chat_completion.choices[0].message.content
+        reply = response.text
         return {"reply": reply}
     except Exception as e:
         return {"reply": f"AI Engine Error: {str(e)}"}
-
-from app.schemas import MarketPriceRequest
 
 @app.post("/api/market-prices")
 async def get_market_prices(req: MarketPriceRequest):
     """
     Mock endpoint generating simulated live market price metrics for a given crop.
     """
-    import random
     base_price = random.randint(1000, 3000)
     trend = random.choice(["up", "down", "stable"])
     change_pct = round(random.uniform(0.5, 5.0), 2)
@@ -92,6 +82,5 @@ async def get_market_prices(req: MarketPriceRequest):
     }
 
 if __name__ == "__main__":
-    import uvicorn
     uvicorn.run(app, host="127.0.0.1", port=8000)
 

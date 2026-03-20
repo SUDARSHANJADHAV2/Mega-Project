@@ -42,3 +42,15 @@ class YieldRequest(BaseModel):
     area: float
     rainfall: float
     fertilizer: float
+
+class IrrigationRequest(BaseModel):
+    crop: str
+    temperature: float
+    humidity: float
+    irrigation_method: str
+    forecasted_rainfall_mm: float
+
+class SchemeRequest(BaseModel):
+    land_area: float
+    category: str
+    state: str

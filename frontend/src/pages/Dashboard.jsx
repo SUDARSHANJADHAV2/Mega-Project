@@ -78,8 +78,8 @@ const Dashboard = () => {
       </div>
 
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))', gap: '1.5rem', marginBottom: '2rem' }}>
-        <motion.div variants={itemVariants} className="glass-panel" style={{ padding: '1.5rem', display: 'flex', alignItems: 'center', gap: '1rem' }}>
-          <div style={{ background: 'rgba(16, 185, 129, 0.1)', padding: '1rem', borderRadius: '50%', color: '#10b981' }}>
+        <motion.div variants={itemVariants} whileHover={{ y: -5 }} className="glass-panel" style={{ padding: '1.5rem', display: 'flex', alignItems: 'center', gap: '1rem' }}>
+          <div className="animate-pulse-glow" style={{ background: 'rgba(16, 185, 129, 0.1)', padding: '1rem', borderRadius: '50%', color: '#10b981' }}>
             <TrendingUp size={24} />
           </div>
           <div>
@@ -89,7 +89,7 @@ const Dashboard = () => {
           </div>
         </motion.div>
 
-        <motion.div variants={itemVariants} className="glass-panel" style={{ padding: '1.5rem', display: 'flex', alignItems: 'center', gap: '1rem' }}>
+        <motion.div variants={itemVariants} whileHover={{ y: -5 }} className="glass-panel" style={{ padding: '1.5rem', display: 'flex', alignItems: 'center', gap: '1rem' }}>
           <div style={{ background: 'rgba(99, 102, 241, 0.1)', padding: '1rem', borderRadius: '50%', color: '#6366f1' }}>
             <Activity size={24} />
           </div>
@@ -100,8 +100,8 @@ const Dashboard = () => {
           </div>
         </motion.div>
 
-        <motion.div variants={itemVariants} className="glass-panel" style={{ padding: '1.5rem', display: 'flex', alignItems: 'center', gap: '1rem' }}>
-          <div style={{ background: `rgba(${weather?.temperature > 30 ? '239, 68, 68' : '59, 130, 246'}, 0.1)`, padding: '1rem', borderRadius: '50%', color: weatherColor }}>
+        <motion.div variants={itemVariants} whileHover={{ y: -5 }} className="glass-panel" style={{ padding: '1.5rem', display: 'flex', alignItems: 'center', gap: '1rem' }}>
+          <div style={{ background: `rgba(${weather?.temperature > 30 ? '244, 63, 94' : '59, 130, 246'}, 0.1)`, padding: '1rem', borderRadius: '50%', color: weatherColor }}>
             <WeatherIcon size={24} />
           </div>
           <div>
@@ -112,7 +112,7 @@ const Dashboard = () => {
                  <span style={{ color: weatherColor, fontSize: '0.875rem' }}>Wind: {weather.windspeed} km/h</span>
                </>
             ) : (
-               <h3 style={{ fontSize: '1.2rem', color: 'var(--text-muted)' }}>Loading...</h3>
+               <div style={{ animation: 'pulse 1.5s infinite', background: 'rgba(255,255,255,0.1)', height: '2rem', width: '4rem', borderRadius: '0.5rem', marginTop: '0.25rem' }} />
             )}
           </div>
         </motion.div>
@@ -126,13 +126,13 @@ const Dashboard = () => {
           <div style={{ width: '100%', height: 300 }}>
             <ResponsiveContainer>
               <LineChart data={soilData} margin={{ top: 5, right: 20, bottom: 5, left: 0 }}>
-                <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.1)" />
-                <XAxis dataKey="month" stroke="var(--text-muted)" />
-                <YAxis stroke="var(--text-muted)" />
-                <Tooltip contentStyle={{ background: '#1e293b', border: '1px solid var(--border)', borderRadius: '0.5rem' }} />
-                <Line type="monotone" dataKey="nitrogen" name="Nitrogen" stroke="#6366f1" strokeWidth={3} dot={{ r: 4 }} activeDot={{ r: 6 }} />
-                <Line type="monotone" dataKey="phosphorus" name="Phosphorus" stroke="#10b981" strokeWidth={3} dot={{ r: 4 }} />
-                <Line type="monotone" dataKey="potassium" name="Potassium" stroke="#ef4444" strokeWidth={3} dot={{ r: 4 }} />
+                <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.05)" vertical={false} />
+                <XAxis dataKey="month" stroke="var(--text-muted)" tickLine={false} axisLine={false} />
+                <YAxis stroke="var(--text-muted)" tickLine={false} axisLine={false} />
+                <Tooltip contentStyle={{ background: 'rgba(15, 23, 42, 0.8)', backdropFilter: 'blur(8px)', border: '1px solid var(--border)', borderRadius: '0.75rem', color: '#fff', boxShadow: '0 8px 16px rgba(0,0,0,0.5)' }} itemStyle={{ color: '#fff' }} />
+                <Line type="monotone" dataKey="nitrogen" name="Nitrogen" stroke="#6366f1" strokeWidth={3} dot={{ r: 4, fill: '#020617', strokeWidth: 2 }} activeDot={{ r: 6, stroke: '#6366f1', strokeWidth: 2 }} />
+                <Line type="monotone" dataKey="phosphorus" name="Phosphorus" stroke="#10b981" strokeWidth={3} dot={{ r: 4, fill: '#020617', strokeWidth: 2 }} />
+                <Line type="monotone" dataKey="potassium" name="Potassium" stroke="#f43f5e" strokeWidth={3} dot={{ r: 4, fill: '#020617', strokeWidth: 2 }} />
               </LineChart>
             </ResponsiveContainer>
           </div>
@@ -145,11 +145,17 @@ const Dashboard = () => {
           <div style={{ width: '100%', height: 300 }}>
             <ResponsiveContainer>
               <AreaChart data={yieldData} margin={{ top: 5, right: 20, bottom: 5, left: 0 }}>
-                <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.1)" />
-                <XAxis dataKey="year" stroke="var(--text-muted)" />
-                <YAxis stroke="var(--text-muted)" />
-                <Tooltip contentStyle={{ background: '#1e293b', border: '1px solid var(--border)', borderRadius: '0.5rem' }} />
-                <Area type="monotone" dataKey="yield" name="Yield (kg/ha)" stroke="#10b981" fill="rgba(16, 185, 129, 0.3)" strokeWidth={3} />
+                <defs>
+                  <linearGradient id="colorYield" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="5%" stopColor="#10b981" stopOpacity={0.4}/>
+                    <stop offset="95%" stopColor="#10b981" stopOpacity={0}/>
+                  </linearGradient>
+                </defs>
+                <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.05)" vertical={false} />
+                <XAxis dataKey="year" stroke="var(--text-muted)" tickLine={false} axisLine={false} />
+                <YAxis stroke="var(--text-muted)" tickLine={false} axisLine={false} />
+                <Tooltip contentStyle={{ background: 'rgba(15, 23, 42, 0.8)', backdropFilter: 'blur(8px)', border: '1px solid var(--border)', borderRadius: '0.75rem', color: '#fff', boxShadow: '0 8px 16px rgba(0,0,0,0.5)' }} itemStyle={{ color: '#fff' }} />
+                <Area type="monotone" dataKey="yield" name="Yield (kg/ha)" stroke="#10b981" fillOpacity={1} fill="url(#colorYield)" strokeWidth={3} />
               </AreaChart>
             </ResponsiveContainer>
           </div>

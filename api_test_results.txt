@@ -1,0 +1,6 @@
+--- Testing API Endpoints ---
+Crop Predictor: 200 - {'recommended_crop': 'cotton'}
+Fertilizer Predictor: 200 - {'recommended_fertilizer': 'DAP', 'confidence': 88.5}
+Crop Yield: 200 - {'yield_per_acre': 2.52, 'total_estimated_yield': 12.6, 'confidence': 92.5}
+Chatbot: 200 - {'reply': 'AI Engine Error: 404 models/gemini-1.5-flash-latest is not found for API version v1beta, or is not supported for generateContent. Call ListModels to see the list of available models and their supported methods.'}
+Disease Predictor: 200 - {"disease_class":"Tomato___Early_blight","confidence_percentage":86.0,"confidence_message":"Diagnost

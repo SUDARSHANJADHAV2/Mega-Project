@@ -1,6 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { Leaf, Droplets, Activity, ChevronRight, CheckCircle, Shield, Zap } from 'lucide-react';
+import { Leaf, Droplets, Activity, ChevronRight, CheckCircle, Shield, Zap, Bug } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import WeatherWidget from '../components/WeatherWidget';
 
@@ -50,20 +50,20 @@ const Home = () => {
 
       {/* Trust Badges */}
       <motion.div variants={containerVariants} style={{ display: 'flex', justifyContent: 'space-between', borderTop: '1px solid var(--border)', borderBottom: '1px solid var(--border)', padding: '2rem 0', marginBottom: '6rem', color: 'var(--text-muted)' }}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}><CheckCircle size={20} color="#10b981" /> 99.5% AI Accuracy</div>
-        <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}><Shield size={20} color="#6366f1" /> PWA Offline Capable</div>
-        <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}><Zap size={20} color="#f59e0b" /> Real-time Telemetry</div>
+        <motion.div whileHover={{ scale: 1.05 }} style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', cursor: 'default' }}><CheckCircle size={20} color="#10b981" /> <motion.span initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 2, delay: 0.5 }}>99.5%</motion.span> AI Accuracy</motion.div>
+        <motion.div whileHover={{ scale: 1.05 }} style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', cursor: 'default' }}><Shield size={20} color="#6366f1" /> PWA Offline Capable</motion.div>
+        <motion.div whileHover={{ scale: 1.05 }} style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', cursor: 'default' }}><Zap size={20} color="#f59e0b" /> Real-time Telemetry</motion.div>
       </motion.div>
 
       {/* Core Features */}
       <div className="text-center mb-12">
-         <motion.h2 variants={itemVariants} style={{ fontSize: '2.5rem', marginBottom: '1rem' }}>Enterprise AI Modules</motion.h2>
+         <motion.h2 variants={itemVariants} style={{ fontSize: '2.5rem', marginBottom: '1rem', background: 'linear-gradient(135deg, #f8fafc, #94a3b8)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>Enterprise AI Modules</motion.h2>
          <motion.p variants={itemVariants} style={{ color: 'var(--text-muted)', maxWidth: '600px', margin: '0 auto' }}>Select one of our specialized deep-learning engines to process your farm data instantly.</motion.p>
       </div>
 
-      <motion.div variants={containerVariants} style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '2rem', marginBottom: '6rem' }}>
-        <motion.div variants={itemVariants} className="glass-panel" style={{ padding: '2.5rem', position: 'relative', overflow: 'hidden', display: 'flex', flexDirection: 'column' }}>
-          <div style={{ background: 'rgba(16, 185, 129, 0.1)', width: '60px', height: '60px', borderRadius: '1rem', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '1.5rem', color: '#10b981' }}>
+      <motion.div variants={containerVariants} style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '2rem', marginBottom: '6rem' }}>
+        <motion.div variants={itemVariants} whileHover={{ scale: 1.03, y: -8 }} className="glass-panel" style={{ padding: '2.5rem', position: 'relative', overflow: 'hidden', display: 'flex', flexDirection: 'column' }}>
+          <div className="animate-float" style={{ background: 'rgba(16, 185, 129, 0.1)', width: '60px', height: '60px', borderRadius: '1rem', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '1.5rem', color: '#10b981' }}>
             <Leaf size={32} />
           </div>
           <h3 style={{ fontSize: '1.5rem', marginBottom: '1rem' }}>Yield Maximizer</h3>
@@ -73,8 +73,19 @@ const Home = () => {
           <Link to="/crop" className="btn" style={{ background: 'rgba(255,255,255,0.05)', border: '1px solid var(--border)' }}>Execute Model <ChevronRight size={16} /></Link>
         </motion.div>
 
-        <motion.div variants={itemVariants} className="glass-panel" style={{ padding: '2.5rem', position: 'relative', overflow: 'hidden', display: 'flex', flexDirection: 'column', background: 'linear-gradient(135deg, rgba(99, 102, 241, 0.1), rgba(15, 23, 42, 0.6))', borderColor: 'rgba(99,102,241,0.3)' }}>
-          <div style={{ background: 'rgba(99, 102, 241, 0.2)', width: '60px', height: '60px', borderRadius: '1rem', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '1.5rem', color: '#818cf8' }}>
+        <motion.div variants={itemVariants} whileHover={{ scale: 1.03, y: -8 }} className="glass-panel" style={{ padding: '2.5rem', position: 'relative', overflow: 'hidden', display: 'flex', flexDirection: 'column' }}>
+          <div className="animate-float" style={{ animationDelay: '1s', background: 'rgba(59, 130, 246, 0.1)', width: '60px', height: '60px', borderRadius: '1rem', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '1.5rem', color: '#3b82f6' }}>
+            <Droplets size={32} />
+          </div>
+          <h3 style={{ fontSize: '1.5rem', marginBottom: '1rem' }}>Irrigation Forecaster</h3>
+          <p style={{ color: 'var(--text-muted)', marginBottom: '2rem', flexGrow: 1, lineHeight: 1.6 }}>
+            Accurately models exact crop water deficits using live climatic evaporation metrics (Penman-Monteith).
+          </p>
+          <Link to="/irrigation" className="btn" style={{ background: 'rgba(255,255,255,0.05)', border: '1px solid var(--border)' }}>Execute Model <ChevronRight size={16} /></Link>
+        </motion.div>
+
+        <motion.div variants={itemVariants} whileHover={{ scale: 1.03, y: -8 }} className="glass-panel" style={{ padding: '2.5rem', position: 'relative', overflow: 'hidden', display: 'flex', flexDirection: 'column', background: 'linear-gradient(135deg, rgba(99, 102, 241, 0.1), rgba(15, 23, 42, 0.6))', borderColor: 'rgba(99,102,241,0.3)' }}>
+          <div className="animate-pulse-glow" style={{ background: 'rgba(99, 102, 241, 0.2)', width: '60px', height: '60px', borderRadius: '1rem', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '1.5rem', color: '#818cf8' }}>
             <Droplets size={32} />
           </div>
           <h3 style={{ fontSize: '1.5rem', marginBottom: '1rem' }}>Nutrient Synthesizer</h3>
@@ -84,8 +95,8 @@ const Home = () => {
           <Link to="/fertilizer" className="btn btn-primary">Execute Model <ChevronRight size={16} /></Link>
         </motion.div>
 
-        <motion.div variants={itemVariants} className="glass-panel" style={{ padding: '2.5rem', position: 'relative', overflow: 'hidden', display: 'flex', flexDirection: 'column' }}>
-          <div style={{ background: 'rgba(239, 68, 68, 0.1)', width: '60px', height: '60px', borderRadius: '1rem', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '1.5rem', color: '#ef4444' }}>
+        <motion.div variants={itemVariants} whileHover={{ scale: 1.03, y: -8 }} className="glass-panel" style={{ padding: '2.5rem', position: 'relative', overflow: 'hidden', display: 'flex', flexDirection: 'column' }}>
+          <div className="animate-float" style={{ animationDelay: '2s', background: 'rgba(239, 68, 68, 0.1)', width: '60px', height: '60px', borderRadius: '1rem', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '1.5rem', color: '#ef4444' }}>
             <Activity size={32} />
           </div>
           <h3 style={{ fontSize: '1.5rem', marginBottom: '1rem' }}>Pathology Deep Scan</h3>
@@ -93,6 +104,17 @@ const Home = () => {
             Utilizes a high-dimensional Convolutional Neural Network to spot biological anomalies in leaf cellular structures.
           </p>
           <Link to="/disease" className="btn" style={{ background: 'rgba(255,255,255,0.05)', border: '1px solid var(--border)' }}>Execute Model <ChevronRight size={16} /></Link>
+        </motion.div>
+
+        <motion.div variants={itemVariants} whileHover={{ scale: 1.03, y: -8 }} className="glass-panel" style={{ padding: '2.5rem', position: 'relative', overflow: 'hidden', display: 'flex', flexDirection: 'column' }}>
+          <div className="animate-float" style={{ animationDelay: '0.5s', background: 'rgba(234, 179, 8, 0.1)', width: '60px', height: '60px', borderRadius: '1rem', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '1.5rem', color: '#eab308' }}>
+            <Bug size={32} />
+          </div>
+          <h3 style={{ fontSize: '1.5rem', marginBottom: '1rem' }}>Pest Recognition</h3>
+          <p style={{ color: 'var(--text-muted)', marginBottom: '2rem', flexGrow: 1, lineHeight: 1.6 }}>
+            Upload insect images to receive instant identification and professional eradication guidance.
+          </p>
+          <Link to="/pest" className="btn" style={{ background: 'rgba(255,255,255,0.05)', border: '1px solid var(--border)' }}>Execute Model <ChevronRight size={16} /></Link>
         </motion.div>
       </motion.div>
 
