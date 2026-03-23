@@ -19,7 +19,7 @@ const Crop = () => {
   const [error, setError] = useState(null);
 
   const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: parseFloat(e.target.value) || 0 });
+    setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
   const handleSubmit = async (e) => {
@@ -28,8 +28,14 @@ const Crop = () => {
     setError(null);
     setResult(null);
 
+    // Convert strings to float for API
+    const payload = {};
+    for (const key in formData) {
+      payload[key] = parseFloat(formData[key]) || 0;
+    }
+
     try {
-      const response = await api.post('/api/predict-crop', formData);
+      const response = await api.post('/api/predict-crop', payload);
       const cropName = response.data.recommended_crop;
       
       try {

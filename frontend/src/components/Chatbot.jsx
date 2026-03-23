@@ -146,13 +146,20 @@ const Chatbot = () => {
               <div style={{ background: '#6366f1', padding: '0.5rem', borderRadius: '50%', color: 'white' }}>
                  <Bot size={20} />
               </div>
-              <div>
+              <div style={{ flex: 1 }}>
                 <h3 style={{ fontSize: '1rem', margin: 0 }}>KrushiAI Assistant</h3>
                 <p style={{ fontSize: '0.75rem', color: '#10b981', margin: 0, display: 'flex', alignItems: 'center', gap: '4px' }}>
                    <span style={{ display: 'inline-block', width: '8px', height: '8px', borderRadius: '50%', background: '#10b981' }} /> 
                    Online
                 </p>
               </div>
+              <button 
+                onClick={toggleChat} 
+                style={{ background: 'transparent', border: 'none', color: 'var(--text-muted)', cursor: 'pointer', padding: '0.25rem' }}
+                aria-label="Close Chat"
+              >
+                <X size={20} />
+              </button>
             </div>
 
             {/* Messages Area */}

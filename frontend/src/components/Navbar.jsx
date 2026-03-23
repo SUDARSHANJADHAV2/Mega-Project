@@ -1,7 +1,8 @@
 import React, { useContext, useState } from 'react';
 import { NavLink, useLocation } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Leaf, LogOut, UserIcon, Menu, X, ChevronDown, Sparkles } from 'lucide-react';
+import { Leaf, LogOut, UserIcon, Menu, X, ChevronDown, Sparkles, Globe } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 import { AuthContext } from '../context/AuthContext';
 
 const Navbar = () => {
@@ -9,6 +10,11 @@ const Navbar = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isAiDropdownOpen, setIsAiDropdownOpen] = useState(false);
   const location = useLocation();
+  const { t, i18n } = useTranslation();
+
+  const changeLanguage = (lng) => {
+    i18n.changeLanguage(lng);
+  };
 
   const toggleMobileMenu = () => setIsMobileMenuOpen(!isMobileMenuOpen);
   
@@ -34,7 +40,7 @@ const Navbar = () => {
 
         {/* Desktop Navigation */}
         <div className="nav-links desktop-only">
-          <NavLink to="/" className={({isActive}) => isActive ? "nav-link active" : "nav-link"}>Home</NavLink>
+          <NavLink to="/" className={({isActive}) => isActive ? "nav-link active" : "nav-link"}>{t('Home')}</NavLink>
           
           {/* AI Models Dropdown */}
           <div 
@@ -44,7 +50,7 @@ const Navbar = () => {
             style={{ position: 'relative', height: '100%', display: 'flex', alignItems: 'center' }}
           >
             <button className="nav-link" style={{ background: 'transparent', border: 'none', display: 'flex', alignItems: 'center', gap: '4px', cursor: 'pointer' }}>
-              <Sparkles size={16} color="#818cf8" /> Enterprise AI <ChevronDown size={14} />
+              <Sparkles size={16} color="#818cf8" /> {t('Enterprise AI')} <ChevronDown size={14} />
             </button>
             <AnimatePresence>
               {isAiDropdownOpen && (
@@ -52,25 +58,40 @@ const Navbar = () => {
                   initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: 10 }}
                   className="dropdown-menu glass-panel"
                 >
-                  <NavLink to="/crop" className="dropdown-item">Crop Recommender</NavLink>
-                  <NavLink to="/yield" className="dropdown-item">Yield Predictor <span className="badge">New</span></NavLink>
-                  <NavLink to="/weed" className="dropdown-item">Weed Detector <span className="badge">New</span></NavLink>
-                  <NavLink to="/pest" className="dropdown-item">Pest Recognition <span className="badge">New</span></NavLink>
-                  <NavLink to="/irrigation" className="dropdown-item">Irrigation Forecaster <span className="badge">New</span></NavLink>
-                  <NavLink to="/fertilizer" className="dropdown-item">Fertilizer Recommender</NavLink>
-                  <NavLink to="/disease" className="dropdown-item">Disease Diagnosis</NavLink>
+                  <NavLink to="/crop" className="dropdown-item">{t('Crop Recommender')}</NavLink>
+                  <NavLink to="/yield" className="dropdown-item">{t('Yield Predictor')} <span className="badge">New</span></NavLink>
+                  <NavLink to="/profit" className="dropdown-item">{t('Financial Analyzer')} <span className="badge">New</span></NavLink>
+                  <NavLink to="/calendar" className="dropdown-item">{t('AI Crop Calendar')} <span className="badge">New</span></NavLink>
+                  <NavLink to="/soil" className="dropdown-item">{t('Soil Health Analyzer')} <span className="badge">New</span></NavLink>
+                  <NavLink to="/weed" className="dropdown-item">{t('Weed Detector')} <span className="badge">New</span></NavLink>
+                  <NavLink to="/pest" className="dropdown-item">{t('Pest Recognition')} <span className="badge">New</span></NavLink>
+                  <NavLink to="/irrigation" className="dropdown-item">{t('Irrigation Forecaster')} <span className="badge">New</span></NavLink>
+                  <NavLink to="/fertilizer" className="dropdown-item">{t('Fertilizer Recommender')}</NavLink>
+                  <NavLink to="/disease" className="dropdown-item">{t('Disease Recognition')}</NavLink>
                 </motion.div>
               )}
             </AnimatePresence>
           </div>
 
-          <NavLink to="/map" className={({isActive}) => isActive ? "nav-link active" : "nav-link"}>Farm Maps</NavLink>
-          <NavLink to="/market" className={({isActive}) => isActive ? "nav-link active" : "nav-link"}>Krushi Mandi</NavLink>
-          <NavLink to="/ledger" className={({isActive}) => isActive ? "nav-link active" : "nav-link"}>Ledger</NavLink>
-          <NavLink to="/dashboard" className={({isActive}) => isActive ? "nav-link active" : "nav-link"}>Dashboard</NavLink>
+          <NavLink to="/map" className={({isActive}) => isActive ? "nav-link active" : "nav-link"}>{t('Farm Maps')}</NavLink>
+          <NavLink to="/market" className={({isActive}) => isActive ? "nav-link active" : "nav-link"}>{t('Krushi Mandi')}</NavLink>
+          <NavLink to="/ledger" className={({isActive}) => isActive ? "nav-link active" : "nav-link"}>{t('Ledger')}</NavLink>
+          <NavLink to="/dashboard" className={({isActive}) => isActive ? "nav-link active" : "nav-link"}>{t('Data Dashboard')}</NavLink>
           
           {/* Auth UI */}
           <div style={{ marginLeft: 'auto', display: 'flex', alignItems: 'center', gap: '1rem', borderLeft: '1px solid rgba(255,255,255,0.1)', paddingLeft: '1rem' }}>
+            {/* Language Switcher */}
+            <div style={{ display: 'flex', alignItems: 'center', gap: '0.25rem', background: 'rgba(255,255,255,0.05)', padding: '0.3rem 0.5rem', borderRadius: '0.5rem', border: '1px solid var(--border)' }}>
+              <Globe size={16} color="var(--text-muted)" />
+              <select 
+                value={i18n.language} 
+                onChange={(e) => changeLanguage(e.target.value)}
+                style={{ background: 'transparent', border: 'none', color: 'white', fontSize: '0.85rem', cursor: 'pointer', outline: 'none' }}
+              >
+                <option value="en" style={{ color: 'black' }}>EN</option>
+                <option value="hi" style={{ color: 'black' }}>HI</option>
+              </select>
+            </div>
             {user ? (
               <>
                 <span style={{ color: '#10b981', fontWeight: 600, display: 'flex', alignItems: 'center', gap: '0.5rem' }}>

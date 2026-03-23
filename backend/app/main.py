@@ -5,7 +5,8 @@ import random
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from dotenv import load_dotenv
-import google.generativeai as genai
+from google import genai
+from google.genai import types
 import uvicorn
 
 from app import models
@@ -50,13 +51,17 @@ async def handle_chatbot(req: ChatRequest):
         return {"reply": "Configuration Error: Please add your free GEMINI_API_KEY to the backend/.env file to enable the real AI assistant!"}
 
     try:
-        genai.configure(api_key=gemini_api_key)
+        client = genai.Client(api_key=gemini_api_key)
         system_prompt = "You are KrushiAI, an expert Indian agricultural advisor. Provide short, practical, and highly accurate farming advice regarding crops, setup, market prices, and soil health. Do not hallucinate."
-        model = genai.GenerativeModel('gemini-1.5-flash', system_instruction=system_prompt)
+        config = types.GenerateContentConfig(
+            system_instruction=system_prompt,
+            max_output_tokens=2048
+        )
         
-        response = model.generate_content(
-            req.message,
-            generation_config=genai.types.GenerationConfig(max_output_tokens=2048)
+        response = client.models.generate_content(
+            model='gemini-2.0-flash',
+            contents=req.message,
+            config=config
         )
         
         reply = response.text

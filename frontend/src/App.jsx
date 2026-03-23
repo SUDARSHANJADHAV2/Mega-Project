@@ -12,6 +12,9 @@ import WeedDetection from './pages/Weed';
 import YieldPredictor from './pages/Yield';
 import Dashboard from './pages/Dashboard';
 import FarmMap from './pages/Map';
+import Soil from './pages/Soil';
+import Profit from './pages/Profit';
+import Calendar from './pages/Calendar';
 import Ledger from './pages/Ledger';
 import Market from './pages/Market';
 import Equipment from './pages/Equipment';
@@ -25,7 +28,7 @@ const AnimatedRoutes = () => {
   const location = useLocation();
   
   return (
-    <AnimatePresence mode="wait">
+    <AnimatePresence>
       <Routes location={location} key={location.pathname}>
         <Route path="/" element={<Home />} />
         <Route path="/crop" element={<Crop />} />
@@ -36,6 +39,9 @@ const AnimatedRoutes = () => {
         <Route path="/weed" element={<WeedDetection />} />
         <Route path="/irrigation" element={<IrrigationForecaster />} />
         <Route path="/map" element={<FarmMap />} />
+        <Route path="/soil" element={<Soil />} />
+        <Route path="/profit" element={<Profit />} />
+        <Route path="/calendar" element={<Calendar />} />
         <Route path="/ledger" element={<Ledger />} />
         <Route path="/market" element={<Market />} />
         <Route path="/equipment" element={<Equipment />} />

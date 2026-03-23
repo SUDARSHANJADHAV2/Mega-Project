@@ -384,3 +384,127 @@ def predict_schemes(req: schemas.SchemeRequest):
     eligible_schemes.sort(key=lambda x: str(not x["eligible"]) + x["name"])
     
     return eligible_schemes
+
+@router.post("/predict-soil")
+def predict_soil(file: UploadFile = File(...)):
+    """
+    Simulated Image Classification for Soil Type & Health Analysis.
+    """
+    import random
+    
+    temp_path = f"temp_soil_{file.filename}"
+    try:
+        with open(temp_path, "wb") as buffer:
+            shutil.copyfileobj(file.file, buffer)
+            
+        soil_types = [
+            {"type": "Black Soil (Regur)", "moisture": "Low", "ph_estimate": "7.2 - 8.5", "suitable_crops": "Cotton, Wheat, Jowar", "advice": "Soil appears dry. Deep irrigation recommended before sowing."},
+            {"type": "Red Soil", "moisture": "Moderate", "ph_estimate": "5.5 - 6.5", "suitable_crops": "Groundnut, Millets, Tobacco", "advice": "Low holding capacity detected. Advise frequent light irrigation and organic compost."},
+            {"type": "Alluvial Soil", "moisture": "High", "ph_estimate": "6.5 - 7.0", "suitable_crops": "Rice, Wheat, Sugarcane", "advice": "Excellent fertility. Maintain current nutrient regiment."},
+            {"type": "Laterite Soil", "moisture": "Low", "ph_estimate": "4.5 - 5.5", "suitable_crops": "Tea, Coffee, Cashew", "advice": "Highly acidic. Liming required to neutralize pH before planting."}
+        ]
+        
+        hash_val = hash(file.filename)
+        result = soil_types[hash_val % len(soil_types)]
+        confidence = round(random.uniform(85.0, 99.5), 1)
+        
+        return {
+            "soil_type": result["type"],
+            "confidence": confidence,
+            "moisture": result["moisture"],
+            "ph_estimate": result["ph_estimate"],
+            "suitable_crops": result["suitable_crops"],
+            "advice": result["advice"]
+        }
+    except Exception as e:
+        raise HTTPException(status_code=400, detail=f"Soil analysis failed: {str(e)}")
+    finally:
+        if os.path.exists(temp_path):
+            os.remove(temp_path)
+
+@router.post("/predict-profit")
+def predict_profit(data: dict):
+    crop = data.get("crop", "Wheat")
+    area = float(data.get("area", 1.0))
+    budget = float(data.get("budget", 10000))
+    expected_yield = data.get("expected_yield_tons")
+    
+    # Mock Market Prices per Qtl (100kg = 0.1 Ton) -> 1 Ton = 10 Qtl
+    market_prices = {
+        "Wheat": 3000, "Rice": 3500, "Cotton": 7500, 
+        "Maize": 2200, "Sugarcane": 350, "Soybean": 4800
+    }
+    
+    # Yield heuristics (Tons per acre)
+    yield_heuristics = {
+        "Wheat": 2.5, "Rice": 2.8, "Cotton": 1.2,
+        "Maize": 3.5, "Sugarcane": 35.0, "Soybean": 1.5
+    }
+    
+    price_per_qtl = market_prices.get(crop, 2500)
+    price_per_ton = price_per_qtl * 10
+    
+    # Calculate yield
+    if expected_yield and str(expected_yield).strip() != "":
+        total_yield_tons = float(expected_yield)
+    else:
+        total_yield_tons = area * yield_heuristics.get(crop, 2.0)
+        
+    gross_revenue = total_yield_tons * price_per_ton
+    net_profit = gross_revenue - budget
+    roi = (net_profit / budget) * 100 if budget > 0 else 0
+    break_even_tons = budget / price_per_ton if price_per_ton > 0 else 0
+    
+    # Risk Assessment
+    if roi < 20:
+        risk_level = "High"
+        risk_reason = "Low margin of safety. Market drop could wipe out profits."
+        advice = "Reconsider investment amount or diversify crops. Look into government subsidies to offset chemical costs."
+    elif roi < 100:
+        risk_level = "Moderate"
+        risk_reason = "Standard risk profile. Dependent on stable weather."
+        advice = "Good baseline profitability. Ensure robust pest control to protect the expected yield."
+    else:
+        risk_level = "Low"
+        risk_reason = "High margin. Weather and pest risks are adequately absorbed."
+        advice = "Excellent ROI potential. Consider investing surplus into better micro-irrigation systems."
+
+    return {
+        "net_profit": round(net_profit, 2),
+        "roi_percentage": round(roi, 2),
+        "live_market_price": price_per_qtl,
+        "gross_revenue": round(gross_revenue, 2),
+        "total_yield_tons": round(total_yield_tons, 2),
+        "risk_level": risk_level,
+        "risk_reason": risk_reason,
+        "economic_advice": advice,
+        "break_even_tons": round(break_even_tons, 2)
+    }
+
+@router.post("/predict-calendar")
+def predict_calendar(data: dict):
+    from datetime import datetime, timedelta
+    
+    crop = data.get("crop", "Wheat")
+    sowing_date_str = data.get("sowing_date", datetime.now().strftime("%Y-%m-%d"))
+    
+    try:
+        sowing_date = datetime.strptime(sowing_date_str, "%Y-%m-%d")
+    except ValueError:
+        sowing_date = datetime.now()
+        
+    tasks = [
+        {"day": 0, "title": "Field Preparation & Sowing", "description": f"Plough the field to a fine tilth. Sow {crop} seeds at optimal depth."},
+        {"day": 15, "title": "First Irrigation & Weed Control", "description": "Apply light irrigation. Manually remove early weeds to prevent nutrient competition."},
+        {"day": 30, "title": "Basal Fertilizer Application", "description": "Apply Nitrogen and Phosphorus dressing to boost vegetative growth."},
+        {"day": 50, "title": "Pest Monitoring", "description": "Inspect undersides of leaves for eggs or early larvae. Setup pheromone traps if available."},
+        {"day": 75, "title": "Flowering Stage Irrigation", "description": "Critical moisture stage. Ensure field is adequately irrigated to prevent flower drop."},
+        {"day": 100, "title": "Maturation Check", "description": "Withhold heavy irrigation. Inspect grain/fruit for readiness."},
+        {"day": 120, "title": "Harvesting", "description": "Begin harvest activities while weather is dry."}
+    ]
+    
+    for t in tasks:
+        target_date = sowing_date + timedelta(days=int(t["day"]))
+        t["date"] = target_date.strftime("%B %d, %Y")
+        
+    return {"tasks": tasks}
