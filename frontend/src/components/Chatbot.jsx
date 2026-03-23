@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { MessageSquare, X, Send, Bot, User, Loader2, Mic, MicOff } from 'lucide-react';
+import { MessageSquare, X, Send, Bot, User, Loader2, Mic, MicOff, Volume2 } from 'lucide-react';
 import api from '../api';
 
 const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
@@ -63,6 +63,11 @@ const Chatbot = () => {
         alert("Your browser does not support Speech Recognition.");
       }
     }
+  };
+
+  const handleReadAloud = (text) => {
+    const utterance = new SpeechSynthesisUtterance(text);
+    window.speechSynthesis.speak(utterance);
   };
 
   const handleSend = async (e) => {
@@ -202,6 +207,12 @@ const Chatbot = () => {
                           <li>Add it to <code style={{ color: '#818cf8' }}>backend/.env</code> as <code style={{ color: '#818cf8' }}>GROQ_API_KEY</code></li>
                         </ol>
                       </div>
+                    )}
+                    
+                    {m.role !== 'user' && !m.isError && (
+                       <button onClick={() => handleReadAloud(m.content)} style={{ background: 'transparent', border: 'none', color: 'var(--text-muted)', cursor: 'pointer', alignSelf: 'flex-end', marginTop: '0.25rem', padding: 0 }} aria-label="Read aloud">
+                          <Volume2 size={16} />
+                       </button>
                     )}
                   </div>
                 </div>

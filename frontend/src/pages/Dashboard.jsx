@@ -123,8 +123,8 @@ const Dashboard = () => {
           <h3 style={{ marginBottom: '1.5rem', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
             <Activity size={20} color="#6366f1" /> 6-Month Soil NPK Analysis
           </h3>
-          <div style={{ width: '100%', height: 300 }}>
-            <ResponsiveContainer>
+          <div style={{ width: '100%', minHeight: 300 }}>
+            <ResponsiveContainer width="100%" height={300}>
               <LineChart data={soilData} margin={{ top: 5, right: 20, bottom: 5, left: 0 }}>
                 <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.05)" vertical={false} />
                 <XAxis dataKey="month" stroke="var(--text-muted)" tickLine={false} axisLine={false} />
@@ -142,8 +142,8 @@ const Dashboard = () => {
            <h3 style={{ marginBottom: '1.5rem', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
             <TrendingUp size={20} color="#10b981" /> Historical Farm Yield
           </h3>
-          <div style={{ width: '100%', height: 300 }}>
-            <ResponsiveContainer>
+          <div style={{ width: '100%', minHeight: 300 }}>
+            <ResponsiveContainer width="100%" height={300}>
               <AreaChart data={yieldData} margin={{ top: 5, right: 20, bottom: 5, left: 0 }}>
                 <defs>
                   <linearGradient id="colorYield" x1="0" y1="0" x2="0" y2="1">

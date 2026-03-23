@@ -30,7 +30,8 @@ def register_user(user: schemas.FullNameRequest, db: Session = Depends(get_db)):
         raise
     except Exception as e:
         error_details = traceback.format_exc()
-        return {"error": str(e), "traceback": error_details}
+        # FIXED: Proper error raising instead of swallowing into a 200 response
+        raise HTTPException(status_code=500, detail="Internal server error during registration")
 
 @router.post("/login")
 def login(form_data: OAuth2PasswordRequestForm = Depends(), db: Session = Depends(get_db)):

@@ -46,8 +46,12 @@ The platform is split between a unified **FastAPI backend** handling **8 distinc
 KrushiAI features an intelligent floating chat assistant powered by the `google-genai` SDK running **Gemini 2.0 Flash**. It acts as an expert Indian agricultural advisor ready to answer complex agronomy questions in real-time.
 * **Architecture:** Migrated from legacy Groq models. Features a beautiful new floating UI with a native close mechanism and dynamic error fallback handling (e.g., smoothly parsing HTTP `429 RESOURCE_EXHAUSTED` responses without breaking).
 
-### 🌐 Native Multi-Language i18n (English & Hindi)
-* **Inclusion:** KrushiAI V2.0 is functionally wired for India. A toggle integrated directly into the unified Navbar allows instantaneous translation of the entire platform routing, components, inputs, and models from **English to Hindi (`hi`)** natively.
+### 🌐 Native Multi-Language i18n (6 Indian Languages)
+* **Inclusion:** KrushiAI V2.0 is functionally wired for India. A toggle integrated directly into the unified Navbar allows instantaneous translation of the entire platform routing, components, inputs, and models from **English to Hindi, Marathi, Punjabi, Gujarati, Tamil, and Telugu** natively.
+
+### 🎙️ Immersive Voice Assistance & PWA Offline Mode
+* **Speech & Audio:** Native browser-based Speech-to-Text and Text-to-Speech interaction with the unified Chatbot.
+* **Offline Resiliency:** An intelligent connection watcher provides visual warnings and safely falls back to local heuristic models when internet connectivity drops in remote rural areas.
 
 ### 🌤️ Live Open-Meteo Dashboard
 Replaced static dashboard parameters with a live data feed from **Open-Meteo**, a completely free weather API. It extracts real-time temperature, wind speeds, and atmospheric metrics based on agricultural geolocations.

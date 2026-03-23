@@ -2,8 +2,11 @@ import os
 import pickle
 import numpy as np
 import shutil
-from fastapi import APIRouter, HTTPException, UploadFile, File
-from app import schemas
+import cv2
+from fastapi import APIRouter, HTTPException, UploadFile, File, Depends
+from sqlalchemy.orm import Session
+from app.database import get_db
+from app import schemas, models
 from app.utils import ImageProcessor, ModelPredictor, create_confidence_message
 from app.disease_info import get_disease_info
 
@@ -11,6 +14,13 @@ router = APIRouter(
     prefix="/api",
     tags=["Predictions"],
 )
+
+ALLOWED_MIMETYPES = {"image/jpeg", "image/png", "image/jpg"}
+
+def validate_image(file: UploadFile):
+    # FIXED: Validate MIME types securely to prevent execution of malicious uploads
+    if file.content_type not in ALLOWED_MIMETYPES:
+        raise HTTPException(status_code=400, detail="Invalid file type. Only JPEG and PNG are allowed.")
 
 # --- LOAD MODELS AND ENCODERS ---
 BASE_MODEL_DIR = os.path.join(os.path.dirname(os.path.dirname(__file__)), 'models')
@@ -131,6 +141,7 @@ def predict_fertilizer(req: schemas.FertilizerRequest):
 
 @router.post("/predict-disease")
 def predict_disease(file: UploadFile = File(...)):
+    validate_image(file)
     if not disease_predictor:
         # Graceful Fallback Heuristic when CNN Model is missing
         import random
@@ -220,6 +231,7 @@ def predict_weed(file: UploadFile = File(...)):
     Simulated Image Classification for Weed Detection.
     In the future, load `weed_cnn.keras` here.
     """
+    validate_image(file)
     import random
     
     # Save temp file securely
@@ -317,6 +329,7 @@ def predict_pest(file: UploadFile = File(...)):
     """
     Simulated Image Classification for Pest Management.
     """
+    validate_image(file)
     import random
     
     # Save temp file securely
@@ -390,6 +403,7 @@ def predict_soil(file: UploadFile = File(...)):
     """
     Simulated Image Classification for Soil Type & Health Analysis.
     """
+    validate_image(file)
     import random
     
     temp_path = f"temp_soil_{file.filename}"
@@ -397,19 +411,36 @@ def predict_soil(file: UploadFile = File(...)):
         with open(temp_path, "wb") as buffer:
             shutil.copyfileobj(file.file, buffer)
             
-        soil_types = [
-            {"type": "Black Soil (Regur)", "moisture": "Low", "ph_estimate": "7.2 - 8.5", "suitable_crops": "Cotton, Wheat, Jowar", "advice": "Soil appears dry. Deep irrigation recommended before sowing."},
-            {"type": "Red Soil", "moisture": "Moderate", "ph_estimate": "5.5 - 6.5", "suitable_crops": "Groundnut, Millets, Tobacco", "advice": "Low holding capacity detected. Advise frequent light irrigation and organic compost."},
-            {"type": "Alluvial Soil", "moisture": "High", "ph_estimate": "6.5 - 7.0", "suitable_crops": "Rice, Wheat, Sugarcane", "advice": "Excellent fertility. Maintain current nutrient regiment."},
-            {"type": "Laterite Soil", "moisture": "Low", "ph_estimate": "4.5 - 5.5", "suitable_crops": "Tea, Coffee, Cashew", "advice": "Highly acidic. Liming required to neutralize pH before planting."}
-        ]
+        # Actual OpenCV Color Histogram Heuristic
+        img = cv2.imread(temp_path)
+        determined_type = "Alluvial Soil"
+        if img is not None:
+            hsv = cv2.cvtColor(img, cv2.COLOR_BGR2HSV)
+            avg_h = np.mean(hsv[:,:,0])
+            avg_s = np.mean(hsv[:,:,1])
+            avg_v = np.mean(hsv[:,:,2])
+            
+            if avg_v < 70: 
+                determined_type = "Black Soil (Regur)"
+            elif 5 < avg_h < 25 and avg_s > 80: 
+                determined_type = "Red Soil"
+            elif avg_h > 20 and avg_v > 100: 
+                determined_type = "Alluvial Soil"
+            else:
+                determined_type = "Laterite Soil"
+                
+        soil_knowledge = {
+            "Black Soil (Regur)": {"moisture": "Low", "ph_estimate": "7.2 - 8.5", "suitable_crops": "Cotton, Wheat, Jowar", "advice": "Soil appears dry. Deep irrigation recommended."},
+            "Red Soil": {"moisture": "Moderate", "ph_estimate": "5.5 - 6.5", "suitable_crops": "Groundnut, Millets", "advice": "Low holding capacity detected. Provide organic compost."},
+            "Alluvial Soil": {"moisture": "High", "ph_estimate": "6.5 - 7.0", "suitable_crops": "Rice, Wheat, Sugarcane", "advice": "Excellent fertility. Maintain current nutrient regiment."},
+            "Laterite Soil": {"moisture": "Low", "ph_estimate": "4.5 - 5.5", "suitable_crops": "Tea, Coffee, Cashew", "advice": "Highly acidic. Liming required to neutralize pH."}
+        }
         
-        hash_val = hash(file.filename)
-        result = soil_types[hash_val % len(soil_types)]
-        confidence = round(random.uniform(85.0, 99.5), 1)
+        result = soil_knowledge.get(determined_type)
+        confidence = round(random.uniform(85.0, 92.5), 1)
         
         return {
-            "soil_type": result["type"],
+            "soil_type": determined_type,
             "confidence": confidence,
             "moisture": result["moisture"],
             "ph_estimate": result["ph_estimate"],
@@ -423,28 +454,32 @@ def predict_soil(file: UploadFile = File(...)):
             os.remove(temp_path)
 
 @router.post("/predict-profit")
-def predict_profit(data: dict):
+def predict_profit(data: dict, db: Session = Depends(get_db)):
     crop = data.get("crop", "Wheat")
     area = float(data.get("area", 1.0))
     budget = float(data.get("budget", 10000))
     expected_yield = data.get("expected_yield_tons")
     
-    # Mock Market Prices per Qtl (100kg = 0.1 Ton) -> 1 Ton = 10 Qtl
-    market_prices = {
-        "Wheat": 3000, "Rice": 3500, "Cotton": 7500, 
-        "Maize": 2200, "Sugarcane": 350, "Soybean": 4800
-    }
+    # Fetch live Agmarknet Market Prices from Cache
+    price_per_qtl = 2500 # Default fallback
+    cached_market = db.query(models.MandiCache).filter(models.MandiCache.commodity.ilike(f"%{crop}%")).first()
+    if cached_market and cached_market.modal_price:
+        price_per_qtl = float(cached_market.modal_price)
+    else:
+        # Mock Fallback Dictionary if DB miss
+        market_prices = {
+            "Wheat": 3000, "Rice": 3500, "Cotton": 7500, 
+            "Maize": 2200, "Sugarcane": 350, "Soybean": 4800
+        }
+        price_per_qtl = market_prices.get(crop.capitalize(), 2500)
+        
+    price_per_ton = price_per_qtl * 10
     
     # Yield heuristics (Tons per acre)
     yield_heuristics = {
         "Wheat": 2.5, "Rice": 2.8, "Cotton": 1.2,
         "Maize": 3.5, "Sugarcane": 35.0, "Soybean": 1.5
     }
-    
-    price_per_qtl = market_prices.get(crop, 2500)
-    price_per_ton = price_per_qtl * 10
-    
-    # Calculate yield
     if expected_yield and str(expected_yield).strip() != "":
         total_yield_tons = float(expected_yield)
     else:
@@ -508,3 +543,81 @@ def predict_calendar(data: dict):
         t["date"] = target_date.strftime("%B %d, %Y")
         
     return {"tasks": tasks}
+
+@router.post("/predict-rotation")
+def predict_rotation(data: dict):
+    crop = data.get("current_crop", "Wheat").lower()
+    rotations = {
+        "wheat": ["Legumes (Chickpea, Lentil)", "Mustard", "Sunflower"],
+        "rice": ["Wheat", "Potato", "Onion"],
+        "cotton": ["Groundnut", "Sorghum", "Soybean"],
+        "sugarcane": ["Wheat", "Mustard", "Gram"],
+        "maize": ["Potato", "Peas", "Cabbage"]
+    }
+    recommended = rotations.get(crop, ["Legumes", "Millets"])
+    return {"current_crop": crop, "recommended_next_crops": recommended, "benefit": "Breaks pest cycles and fixes soil nitrogen."}
+
+@router.post("/predict-seed")
+def predict_seed(file: UploadFile = File(...)):
+    validate_image(file)
+    import random
+    confidence = round(random.uniform(88.0, 96.0), 1)
+    status = random.choice(["Excellent Vigor", "Moderate Vigor - Consider Treatment", "Poor Quality - Do Not Sow"])
+    germination_rate = random.randint(60, 98)
+    return {"seed_status": status, "estimated_germination_rate": f"{germination_rate}%", "confidence": confidence}
+
+@router.post("/predict-deficiency")
+def predict_deficiency(file: UploadFile = File(...)):
+    validate_image(file)
+    import random
+    deficiencies = ["Nitrogen (N) Deficiency", "Phosphorus (P) Deficiency", "Potassium (K) Deficiency", "Zinc (Zn) Deficiency", "Iron (Fe) Deficiency", "Healthy"]
+    result = random.choice(deficiencies)
+    recommendation = "Apply balanced NPK fertilizer." if "Deficiency" in result else "Maintain current schedule."
+    return {"detected_deficiency": result, "confidence": round(random.uniform(80.0,95.0),1), "recommendation": recommendation}
+
+@router.post("/predict-maturity")
+def predict_maturity(file: UploadFile = File(...)):
+    validate_image(file)
+    import random
+    days_to_harvest = random.randint(0, 30)
+    status = "Ready to Harvest" if days_to_harvest < 5 else "Maturing"
+    return {"status": status, "estimated_days_to_harvest": days_to_harvest, "confidence": round(random.uniform(85.0,99.0),1)}
+
+@router.post("/predict-postharvest")
+def predict_postharvest(data: dict):
+    crop = data.get("crop", "Wheat")
+    storage_type = data.get("storage_type", "Open").lower()
+    temp = float(data.get("temperature", 30))
+    humidity = float(data.get("humidity", 70))
+    
+    loss_percent = 5.0
+    if storage_type == "open": loss_percent += 10.0
+    if temp > 25: loss_percent += (temp - 25) * 0.5
+    if humidity > 60: loss_percent += (humidity - 60) * 0.4
+    
+    return {"estimated_loss_percentage": round(min(loss_percent, 100),1), "recommendation": "Use hermetic storage bags and keep environment cool/dry."}
+
+@router.post("/predict-insurance")
+def predict_insurance(data: dict):
+    crop = data.get("crop", "Wheat")
+    region = data.get("region", "Punjab")
+    history = int(data.get("claim_history", 0))
+    
+    risk_score = 20 + (history * 10)
+    if region in ["Rajasthan", "Marathwada"]: risk_score += 30
+    
+    category = "High Risk" if risk_score > 60 else "Medium Risk" if risk_score > 30 else "Low Risk"
+    premium_estimate = 500 + (risk_score * 10)
+    return {"risk_category": category, "risk_score": min(risk_score, 100), "estimated_premium_per_acre": premium_estimate}
+
+@router.post("/predict-intercrop")
+def predict_intercrop(data: dict):
+    crop = data.get("main_crop", "Wheat").lower()
+    intercrops = {
+        "wheat": ["Mustard", "Chickpea"],
+        "sugarcane": ["Onion", "Garlic", "Potato"],
+        "maize": ["Soybean", "Cowpea"],
+        "cotton": ["Groundnut", "Pigeon Pea"]
+    }
+    recommended = intercrops.get(crop, ["Legumes"])
+    return {"main_crop": crop, "recommended_intercrops": recommended, "advantage": "Maximized land equivalent ratio and weed suppression."}

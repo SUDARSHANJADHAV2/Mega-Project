@@ -23,3 +23,14 @@ class Transaction(Base):
     category = Column(String)
     tx_type = Column(String)
     amount = Column(Float)
+
+class MandiCache(Base):
+    __tablename__ = "mandi_cache"
+    id = Column(Integer, primary_key=True, index=True)
+    commodity = Column(String, index=True)
+    state = Column(String, index=True)
+    price = Column(Float)
+    min_price = Column(Float)
+    max_price = Column(Float)
+    market = Column(String)
+    timestamp = Column(DateTime, default=datetime.datetime.utcnow)

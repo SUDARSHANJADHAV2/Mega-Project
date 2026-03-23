@@ -9,17 +9,23 @@ const Navbar = () => {
   const { user, setShowAuthModal, logout } = useContext(AuthContext);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isAiDropdownOpen, setIsAiDropdownOpen] = useState(false);
+  const [isEcosystemDropdownOpen, setIsEcosystemDropdownOpen] = useState(false);
   const location = useLocation();
   const { t, i18n } = useTranslation();
 
   const changeLanguage = (lng) => {
     i18n.changeLanguage(lng);
+    localStorage.setItem('language', lng);
   };
 
   const toggleMobileMenu = () => setIsMobileMenuOpen(!isMobileMenuOpen);
   
   // Close mobile menu when route changes
-  React.useEffect(() => { setIsMobileMenuOpen(false); setIsAiDropdownOpen(false); }, [location.pathname]);
+  React.useEffect(() => { 
+    setIsMobileMenuOpen(false); 
+    setIsAiDropdownOpen(false); 
+    setIsEcosystemDropdownOpen(false); 
+  }, [location.pathname]);
 
   const navLinks = [
     { name: 'Home', path: '/' },
@@ -73,6 +79,36 @@ const Navbar = () => {
             </AnimatePresence>
           </div>
 
+          {/* New Krushi Ecosystem Dropdown */}
+          <div 
+            className="dropdown-container" 
+            onMouseEnter={() => setIsEcosystemDropdownOpen(true)} 
+            onMouseLeave={() => setIsEcosystemDropdownOpen(false)}
+            style={{ position: 'relative', height: '100%', display: 'flex', alignItems: 'center' }}
+          >
+            <button className="nav-link" style={{ background: 'transparent', border: 'none', display: 'flex', alignItems: 'center', gap: '4px', cursor: 'pointer' }}>
+              <Globe size={16} color="#10b981" /> Krushi Ecosystem <ChevronDown size={14} />
+            </button>
+            <AnimatePresence>
+              {isEcosystemDropdownOpen && (
+                <motion.div 
+                  initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: 10 }}
+                  className="dropdown-menu glass-panel"
+                >
+                  <NavLink to="/satellite" className="dropdown-item">Satellite Intelligence <span className="badge">New</span></NavLink>
+                  <NavLink to="/ocr-tools" className="dropdown-item">Document OCR <span className="badge">New</span></NavLink>
+                  <NavLink to="/forecast" className="dropdown-item">Time Series Forecast <span className="badge">New</span></NavLink>
+                  <NavLink to="/voice" className="dropdown-item">Voice Assistant <span className="badge">New</span></NavLink>
+                  <NavLink to="/sustainability" className="dropdown-item">Farm Sustainability <span className="badge">New</span></NavLink>
+                  <NavLink to="/financial" className="dropdown-item">Fintech / EMI Tools <span className="badge">New</span></NavLink>
+                  <NavLink to="/health" className="dropdown-item">Farmer Health & Legal <span className="badge">New</span></NavLink>
+                  <NavLink to="/education" className="dropdown-item">Agri Education Sandbox <span className="badge">New</span></NavLink>
+                  <NavLink to="/mlops" className="dropdown-item">Edge MLOps <span className="badge">New</span></NavLink>
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </div>
+
           <NavLink to="/map" className={({isActive}) => isActive ? "nav-link active" : "nav-link"}>{t('Farm Maps')}</NavLink>
           <NavLink to="/market" className={({isActive}) => isActive ? "nav-link active" : "nav-link"}>{t('Krushi Mandi')}</NavLink>
           <NavLink to="/ledger" className={({isActive}) => isActive ? "nav-link active" : "nav-link"}>{t('Ledger')}</NavLink>
@@ -80,7 +116,6 @@ const Navbar = () => {
           
           {/* Auth UI */}
           <div style={{ marginLeft: 'auto', display: 'flex', alignItems: 'center', gap: '1rem', borderLeft: '1px solid rgba(255,255,255,0.1)', paddingLeft: '1rem' }}>
-            {/* Language Switcher */}
             <div style={{ display: 'flex', alignItems: 'center', gap: '0.25rem', background: 'rgba(255,255,255,0.05)', padding: '0.3rem 0.5rem', borderRadius: '0.5rem', border: '1px solid var(--border)' }}>
               <Globe size={16} color="var(--text-muted)" />
               <select 
@@ -90,6 +125,11 @@ const Navbar = () => {
               >
                 <option value="en" style={{ color: 'black' }}>EN</option>
                 <option value="hi" style={{ color: 'black' }}>HI</option>
+                <option value="mr" style={{ color: 'black' }}>MR</option>
+                <option value="pa" style={{ color: 'black' }}>PA</option>
+                <option value="gu" style={{ color: 'black' }}>GU</option>
+                <option value="ta" style={{ color: 'black' }}>TA</option>
+                <option value="te" style={{ color: 'black' }}>TE</option>
               </select>
             </div>
             {user ? (
@@ -124,6 +164,7 @@ const Navbar = () => {
             style={{ overflow: 'hidden', borderLeft: 'none', borderRight: 'none', borderRadius: 0 }}
           >
             <div style={{ padding: '1rem', display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
+               
                <div style={{ color: '#818cf8', fontWeight: 600, padding: '0.5rem', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
                  <Sparkles size={16} /> Enterprise AI Models
                </div>
@@ -135,6 +176,21 @@ const Navbar = () => {
                   <NavLink to="/irrigation" className="mobile-nav-link" style={{ display: 'flex', justifyContent: 'space-between' }}>Irrigation <span className="badge">New</span></NavLink>
                   <NavLink to="/fertilizer" className="mobile-nav-link">Fertilizer Recommender</NavLink>
                   <NavLink to="/disease" className="mobile-nav-link">Disease Diagnosis</NavLink>
+               </div>
+
+               <div style={{ color: '#10b981', fontWeight: 600, padding: '0.5rem', display: 'flex', alignItems: 'center', gap: '0.5rem', marginTop: '1rem' }}>
+                 <Globe size={16} /> Krushi Ecosystem
+               </div>
+               <div style={{ paddingLeft: '1.5rem', display: 'flex', flexDirection: 'column', gap: '0.5rem', borderLeft: '2px solid rgba(255,255,255,0.1)', marginLeft: '1rem' }}>
+                  <NavLink to="/satellite" className="mobile-nav-link" style={{ display: 'flex', justifyContent: 'space-between' }}>Satellite Intelligence <span className="badge">New</span></NavLink>
+                  <NavLink to="/ocr-tools" className="mobile-nav-link" style={{ display: 'flex', justifyContent: 'space-between' }}>Document OCR <span className="badge">New</span></NavLink>
+                  <NavLink to="/forecast" className="mobile-nav-link" style={{ display: 'flex', justifyContent: 'space-between' }}>Time Series Forecast <span className="badge">New</span></NavLink>
+                  <NavLink to="/voice" className="mobile-nav-link" style={{ display: 'flex', justifyContent: 'space-between' }}>Voice Assistant <span className="badge">New</span></NavLink>
+                  <NavLink to="/sustainability" className="mobile-nav-link" style={{ display: 'flex', justifyContent: 'space-between' }}>Farm Sustainability <span className="badge">New</span></NavLink>
+                  <NavLink to="/financial" className="mobile-nav-link" style={{ display: 'flex', justifyContent: 'space-between' }}>Fintech Tools <span className="badge">New</span></NavLink>
+                  <NavLink to="/health" className="mobile-nav-link" style={{ display: 'flex', justifyContent: 'space-between' }}>Health & Legal <span className="badge">New</span></NavLink>
+                  <NavLink to="/education" className="mobile-nav-link" style={{ display: 'flex', justifyContent: 'space-between' }}>Education Sandbox <span className="badge">New</span></NavLink>
+                  <NavLink to="/mlops" className="mobile-nav-link" style={{ display: 'flex', justifyContent: 'space-between' }}>Edge MLOps <span className="badge">New</span></NavLink>
                </div>
 
                <div style={{ component: 'hr', borderTop: '1px solid rgba(255,255,255,0.1)', margin: '1rem 0' }}></div>
