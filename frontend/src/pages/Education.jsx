@@ -19,7 +19,7 @@ export default function EducationSimulator() {
   const fetchEduData = async (endpoint) => {
     setLoading(true);
     try {
-      const res = await axios.get(`http://localhost:8000/api/education/${endpoint}`);
+      const res = await axios.get(`${import.meta.env.VITE_API_URL || "http://localhost:8000"}/api/education/${endpoint}`);
       setData(res.data);
       if(endpoint.includes('quiz')) {
          setQuizState({ questions: res.data.questions, currentIdx: 0, score: 0, showResult: false });

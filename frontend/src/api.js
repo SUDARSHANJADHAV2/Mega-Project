@@ -1,7 +1,8 @@
 import axios from 'axios';
+import toast from 'react-hot-toast';
 
 const api = axios.create({
-    baseURL: 'http://localhost:8000',
+    baseURL: import.meta.env.VITE_API_URL || 'http://localhost:8000',
 });
 
 // Request interceptor for API calls
@@ -31,6 +32,9 @@ api.interceptors.request.use(
 api.interceptors.response.use((response) => {
     return response
 }, async function (error) {
+    if (!error.response && error.message === 'Network Error') {
+        toast.error('Network Error: Backend Unreachable');
+    }
     const originalRequest = error.config;
     // Handle 401 Unauthorized
     if (error.response && error.response.status === 401 && !originalRequest._retry) {

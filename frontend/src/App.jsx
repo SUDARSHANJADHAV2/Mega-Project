@@ -1,6 +1,19 @@
 import React from 'react';
 import { BrowserRouter, Routes, Route, useLocation } from 'react-router-dom';
-import { AnimatePresence } from 'framer-motion';
+import { AnimatePresence, motion } from 'framer-motion';
+import axios from 'axios';
+import toast, { Toaster } from 'react-hot-toast';
+
+// Global Axios Interceptor for unhandled network errors
+axios.interceptors.response.use(
+  (response) => response,
+  (error) => {
+    if (!error.response && error.message === 'Network Error') {
+      toast.error('Network Error: Backend Unreachable');
+    }
+    return Promise.reject(error);
+  }
+);
 
 import Navbar from './components/Navbar';
 import Home from './pages/Home';
@@ -86,6 +99,7 @@ function App() {
 
   return (
     <BrowserRouter>
+      <Toaster position="top-right" />
       <AuthModal />
       <Navbar />
       

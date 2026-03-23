@@ -11,15 +11,19 @@ from google.genai import types
 from groq import Groq
 import uvicorn
 
+from slowapi import Limiter, _rate_limit_exceeded_handler
+from slowapi.util import get_remote_address
+from slowapi.errors import RateLimitExceeded
+
+load_dotenv()
+warnings.filterwarnings('ignore')
+
 from app import models
 from app.database import engine
 from app.routers import auth, predict, ledger, market, satellite, tools_ocr, forecast, audio, environment, financial, health, education, ml_ops
 from app.schemas import ChatRequest, MarketPriceRequest
 from app.core.config import key_rotator
 from app.core.model_manager import ensure_models_downloaded
-
-warnings.filterwarnings('ignore')
-load_dotenv()
 
 # Setup Database
 models.Base.metadata.create_all(bind=engine)
@@ -30,10 +34,14 @@ ensure_models_downloaded(BASE_MODEL_DIR)
 
 app = FastAPI(title="KrushiAI Unified Backend API V2")
 
+limiter = Limiter(key_func=get_remote_address)
+app.state.limiter = limiter
+app.add_exception_handler(RateLimitExceeded, _rate_limit_exceeded_handler)
+
 # Setup CORS to allow React Frontend
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"], 
+    allow_origins=["http://localhost:5173", "http://127.0.0.1:5173"], 
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -59,7 +67,8 @@ def read_root():
     return {"status": "ok", "message": "Welcome to KrushiAI Unified Backend API V2"}
 
 @app.post("/api/chatbot")
-async def handle_chatbot(req: ChatRequest):
+@limiter.limit("10/minute")
+async def handle_chatbot(request: Request, req: ChatRequest):
     """
     Real LLM responder using Gemini API (with key rotation) and Groq fallback.
     """

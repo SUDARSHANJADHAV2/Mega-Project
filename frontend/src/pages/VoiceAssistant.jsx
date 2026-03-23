@@ -95,7 +95,7 @@ export default function VoiceAssistant() {
     }
     
     try {
-      const res = await axios.get(`http://localhost:8000/api/audio/daily-briefing?lang=${i18n.language}`);
+      const res = await axios.get(`${import.meta.env.VITE_API_URL || "http://localhost:8000"}/api/audio/daily-briefing?lang=${i18n.language}`);
       const utterance = new SpeechSynthesisUtterance(res.data.briefing_script);
       utterance.lang = res.data.recommended_voice_lang;
       utterance.rate = 0.9;

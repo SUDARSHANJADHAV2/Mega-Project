@@ -1,8 +1,10 @@
 import os
 import requests
 import datetime
+import random
 from bs4 import BeautifulSoup
 from fastapi import APIRouter, Depends
+from pydantic import BaseModel
 from sqlalchemy.orm import Session
 from app import models
 from app.database import get_db

@@ -1,0 +1,11 @@
+INFO:app.core.model_manager:Model file weed_cnn.keras not found. Attempting to download from https://huggingface.co/krushiai/models/resolve/main/weed_cnn.keras...
+WARNING:app.core.model_manager:Download placeholder for weed_cnn.keras. (Assuming heuristic fallback will be used if absent)
+INFO:app.core.model_manager:Model file pest_cnn.keras not found. Attempting to download from https://huggingface.co/krushiai/models/resolve/main/pest_cnn.keras...
+WARNING:app.core.model_manager:Download placeholder for pest_cnn.keras. (Assuming heuristic fallback will be used if absent)
+INFO:     Started server process [22888]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+ERROR:    [Errno 10048] error while attempting to bind on address ('0.0.0.0', 8000): [winerror 10048] only one usage of each socket address (protocol/network address/port) is normally permitted
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+Warning: TensorFlow not found. Running with mocked ML models.

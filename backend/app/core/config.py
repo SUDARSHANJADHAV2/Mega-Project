@@ -1,6 +1,7 @@
 import os
 import itertools
 import logging
+import typing
 from typing import Optional
 
 logger = logging.getLogger(__name__)
@@ -8,6 +9,10 @@ logger = logging.getLogger(__name__)
 class KeyRotator:
     def __init__(self):
         keys = []
+        primary_key = os.getenv("GEMINI_API_KEY")
+        if primary_key and primary_key.strip():
+            keys.append(primary_key.strip())
+            
         for i in range(1, 6):
             key = os.getenv(f"GEMINI_API_KEY_{i}")
             if key and key.strip():
@@ -16,7 +21,7 @@ class KeyRotator:
         self.keys = keys
         self.cycle: typing.Iterable[Optional[str]]
         if not self.keys:
-            logger.warning("No GEMINI_API_KEY_* found in environment.")
+            logger.warning("No GEMINI_API_KEY or GEMINI_API_KEY_* found in environment.")
             self.cycle = itertools.cycle([None])
         else:
             self.cycle = itertools.cycle(self.keys)

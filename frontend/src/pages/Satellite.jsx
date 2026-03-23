@@ -32,7 +32,7 @@ export default function SatelliteDashboard() {
   const fetchSatelliteData = async (endpoint, setter, extraParams = "") => {
     setLoading(true);
     try {
-      const res = await axios.get(`http://localhost:8000/api/satellite/${endpoint}?lat=${profile.lat}&lon=${profile.lon}${extraParams}`);
+      const res = await axios.get(`${import.meta.env.VITE_API_URL || "http://localhost:8000"}/api/satellite/${endpoint}?lat=${profile.lat}&lon=${profile.lon}${extraParams}`);
       setter(res.data);
     } catch (e) {
       console.error("Satellite fetch error:", e);

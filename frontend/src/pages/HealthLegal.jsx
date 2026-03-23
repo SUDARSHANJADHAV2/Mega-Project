@@ -26,9 +26,9 @@ export default function HealthLegalDashboard() {
     try {
       let res;
       if (payload) {
-         res = await axios.post(`http://localhost:8000/api/health/${endpoint}`, payload);
+         res = await axios.post(`${import.meta.env.VITE_API_URL || "http://localhost:8000"}/api/health/${endpoint}`, payload);
       } else {
-         res = await axios.get(`http://localhost:8000/api/health/${endpoint}`);
+         res = await axios.get(`${import.meta.env.VITE_API_URL || "http://localhost:8000"}/api/health/${endpoint}`);
       }
       setData(res.data);
     } catch(e) {

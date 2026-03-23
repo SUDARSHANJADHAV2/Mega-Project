@@ -1,0 +1,23 @@
+Table: mandi_cache
+  id: INTEGER
+  commodity: VARCHAR
+  state: VARCHAR
+  price: FLOAT
+  min_price: FLOAT
+  max_price: FLOAT
+  market: VARCHAR
+  timestamp: DATETIME
+Table: transactions
+  id: INTEGER
+  user_id: INTEGER
+  date: VARCHAR
+  description: VARCHAR
+  category: VARCHAR
+  tx_type: VARCHAR
+  amount: FLOAT
+Table: users
+  id: INTEGER
+  full_name: VARCHAR
+  email: VARCHAR
+  hashed_password: VARCHAR
+  created_at: DATETIME

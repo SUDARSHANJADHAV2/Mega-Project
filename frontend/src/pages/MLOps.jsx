@@ -23,9 +23,9 @@ export default function MLOpsDashboard() {
     try {
       let res;
       if (payload) {
-         res = await axios.post(`http://localhost:8000/api/mlops/${endpoint}`, payload);
+         res = await axios.post(`${import.meta.env.VITE_API_URL || "http://localhost:8000"}/api/mlops/${endpoint}`, payload);
       } else {
-         res = await axios.get(`http://localhost:8000/api/mlops/${endpoint}`);
+         res = await axios.get(`${import.meta.env.VITE_API_URL || "http://localhost:8000"}/api/mlops/${endpoint}`);
       }
       setData(res.data);
     } catch(e) {

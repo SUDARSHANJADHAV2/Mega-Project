@@ -17,9 +17,9 @@ export default function ForecastDashboard() {
     try {
       let res;
       if (payload) {
-         res = await axios.post(`http://localhost:8000/api/forecast/${endpoint}`, payload);
+         res = await axios.post(`${import.meta.env.VITE_API_URL || "http://localhost:8000"}/api/forecast/${endpoint}`, payload);
       } else {
-         res = await axios.get(`http://localhost:8000/api/forecast/${endpoint}`);
+         res = await axios.get(`${import.meta.env.VITE_API_URL || "http://localhost:8000"}/api/forecast/${endpoint}`);
       }
       setData(res.data);
     } catch(e) {

@@ -17,3 +17,12 @@ slowapi==0.1.9
 redis==5.2.1
 requests==2.32.3
 httpx==0.28.1
+python-dotenv
+aiofiles
+sentinelsat
+rasterio
+prophet
+earthaccess
+beautifulsoup4
+alembic
+bcrypt
